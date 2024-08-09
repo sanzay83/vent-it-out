@@ -16,18 +16,15 @@ const Header = () => {
             {showMenu ? <IoCloseSharp /> : <GiHamburgerMenu />}
           </div>
         </div>
-      </div>
-      {showMenu ? (
-        <div className="container menu">
-          <div className="hamburger-menu-items">
-            <div className="menu-item">Sign in</div>
-            <div className="menu-item">Home</div>
-            <div className="menu-item">About</div>
-          </div>
+
+        <div
+          className={`hamburger-menu-items ${showMenu ? "" : "menu-disabled"}`}
+        >
+          <div className="menu-item">Sign in</div>
+          <div className="menu-item">Home</div>
+          <div className="menu-item">About</div>
         </div>
-      ) : (
-        ""
-      )}
+      </div>
     </>
   );
 };
