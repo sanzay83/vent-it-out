@@ -12,6 +12,9 @@
   min-width: 320px;
 }
 
+///////////////////////////////////////////
+///                   Header            ///
+///////////////////////////////////////////
 .header {
   display: grid;
   width: 100%;
@@ -55,6 +58,10 @@
   padding-right: 5%;
 }
 
+///////////////////////////////////////////
+///              Input Section          ///
+///////////////////////////////////////////
+
 .input-section {
   width: 100%;
   background-color: rgb(143, 143, 143);
@@ -66,9 +73,12 @@
   margin: 15px;
   padding: 15px;
   border: 1px solid white;
-
   border-radius: 15px;
 }
+
+///////////////////////////////////////////
+///             Post Section            ///
+///////////////////////////////////////////
 
 .posts {
   width: 100%;
@@ -93,4 +103,111 @@
 }
 .post .post-message {
   font-size: 1rem;
+}
+
+///////////////////////////////////////////
+///                   Loader            ///
+///////////////////////////////////////////
+
+.error-loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 70vh;
+  font-size: 4rem;
+}
+
+.loader {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+    box-shadow: 0 -1px 0 white;
+  }
+
+  50% {
+    transform: rotate(180deg);
+    box-shadow: 0 -1px 0 white;
+  }
+
+  100% {
+    transform: rotate(360deg);
+    box-shadow: 0 -1px 0 white;
+  }
+}
+
+///////////////////////////////////////////
+///           About                    ///
+///////////////////////////////////////////
+.about-container {
+  display: flex;
+  justify-content: center;
+  padding: 10px;
+  height: 70vh;
+  font-size: 1.5rem;
+  color: rgb(216, 216, 216);
+  background-color: rgb(121, 121, 121);
+}
+
+///////////////////////////////////////////
+///              Sign In                ///
+///////////////////////////////////////////
+
+.signin-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 80vh;
+  font-size: 1.5rem;
+  color: rgb(216, 216, 216);
+  background-color: rgb(121, 121, 121);
+}
+
+.signin-box {
+  width: 100%;
+  font-size: 1.5rem;
+  color: white;
+  margin: 15px;
+  padding: 15px;
+  border: 1px solid white;
+  border-radius: 15px;
+  text-align: center;
+}
+
+.signin-box .title {
+  font-size: 2rem;
+  font-weight: 600;
+}
+.signin-box form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  justify-content: center;
+  text-align: center;
+}
+
+.signin-box form input {
+  height: 2rem;
+  border-radius: 1rem;
+  background-color: rgb(212, 211, 211);
+}
+
+.signin-box form .forget {
+  text-align: right;
+  font-size: 0.9rem;
+}
+
+.signin-box form button {
+  font-size: 1rem;
+  justify-self: center;
+  font-weight: 600;
+  height: 2rem;
+  width: 50%;
+  border-radius: 1rem;
+  background-color: green;
 }
