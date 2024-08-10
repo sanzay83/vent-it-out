@@ -5,6 +5,7 @@ import Posts from "./Posts";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./SignIn";
 import About from "./About";
+import PostForm from "./PostForm";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
           />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/about" element={<About />} />
+          <Route path="/postform" element={<PostForm />} />
         </Routes>
       </div>
     </Router>

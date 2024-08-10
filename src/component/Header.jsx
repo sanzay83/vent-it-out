@@ -15,6 +15,11 @@ const Header = () => {
     location("/" + link);
   };
 
+  const handleSignOut = () => {
+    localStorage.clear();
+    setShowMenu(!showMenu);
+  };
+
   return (
     <>
       <div className="container header">
@@ -28,9 +33,15 @@ const Header = () => {
         <div
           className={`hamburger-menu-items ${showMenu ? "" : "menu-disabled"}`}
         >
-          <div className="menu-item" onClick={() => handleLink("signin")}>
-            Sign in
-          </div>
+          {localStorage.getItem("token") ? (
+            <div className="menu-item" onClick={() => handleSignOut()}>
+              Sign Out
+            </div>
+          ) : (
+            <div className="menu-item" onClick={() => handleLink("signin")}>
+              Sign In
+            </div>
+          )}
 
           <div className="menu-item" onClick={() => handleLink("")}>
             Home

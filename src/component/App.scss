@@ -195,6 +195,7 @@
   height: 2rem;
   border-radius: 1rem;
   background-color: rgb(212, 211, 211);
+  padding-left: 20px;
 }
 
 .signin-box form .forget {
@@ -210,4 +211,8 @@
   width: 50%;
   border-radius: 1rem;
   background-color: green;
+}
+
+.signin-box form .account-create {
+  font-size: 1rem;
 }

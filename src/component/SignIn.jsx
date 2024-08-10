@@ -1,23 +1,31 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config";
 
 const SignIn = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate;
+  const [showMessage, setShowMessage] = useState(false);
+  const navigate = useNavigate();
 
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("", {
+      const response = await axios.post(`${API_URL}/loginuser/`, {
         username,
         password,
       });
+      localStorage.setItem("username", username);
+      localStorage.setItem("token", response.data.access);
       navigate("/");
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleCreate = () => {
+    setShowMessage(!showMessage);
   };
   return (
     <div className="container signin-container">
@@ -29,6 +37,7 @@ const SignIn = () => {
             id="username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
           />
 
           <input
@@ -36,10 +45,16 @@ const SignIn = () => {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
           />
           <div className="forget">Forget password?</div>
           <button type="submit">Login</button>
-          <div className="">Don't have an account? Create</div>
+          <div className="account-create" onClick={handleCreate}>
+            Don't have an account? Create
+          </div>
+          {showMessage
+            ? "Haha, Developer is working hard right now to let you register to site. Please use username as 'user' and password as 'pass' for now to login."
+            : ""}
         </form>
       </div>
     </div>
