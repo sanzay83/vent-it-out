@@ -26,7 +26,7 @@ const PostForm = () => {
       }
       const token = localStorage.getItem("token");
       await axios.post(
-        `${API_URL}/posts/`,
+        `${API_URL}/vio/posts`,
         {
           username,
           title,

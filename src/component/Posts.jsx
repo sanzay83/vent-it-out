@@ -9,7 +9,7 @@ const Posts = () => {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`${API_URL}/posts/`);
+        const response = await axios.get(`${API_URL}/vio/posts`);
         setPosts(response.data.reverse());
         setLoading(false);
       } catch (err) {

@@ -12,7 +12,7 @@ const SignIn = () => {
   const handleSignIn = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`${API_URL}/loginuser/`, {
+      const response = await axios.post(`${API_URL}/vio/login`, {
         username,
         password,
       });
@@ -53,7 +53,7 @@ const SignIn = () => {
             Don't have an account? Create
           </div>
           {showMessage
-            ? "Haha, Developer is working hard right now to let you register to site. Please use username as 'user' and password as 'pass' for now to login."
+            ? "Haha, Developer is working hard right now to let you register to site. Please use username as 'user' and password as 'admin' for now to login."
             : ""}
         </form>
       </div>
