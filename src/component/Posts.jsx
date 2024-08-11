@@ -10,7 +10,8 @@ const Posts = () => {
     const fetchPosts = async () => {
       try {
         const response = await axios.get(`${API_URL}/vio/posts`);
-        setPosts(response.data.reverse());
+        const posts = response.data.reverse();
+        setPosts(posts);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -21,15 +22,30 @@ const Posts = () => {
     fetchPosts();
   }, []);
 
+  const adjustDateTime = (dateTimeString) => {
+    const dateTime = new Date(dateTimeString);
+
+    const options = { month: "long", day: "numeric" };
+    const formattedDate = dateTime.toLocaleDateString(undefined, options);
+
+    const formattedTime = dateTime.toLocaleTimeString(undefined, {
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    });
+
+    return `${formattedDate} ${formattedTime}`;
+  };
+
   return (
     <div className="container posts">
       {error ? (
-        <div className="error-loader-container">{error}</div>
+        <div className="loader-container">{error}</div>
       ) : (
         <>
           {" "}
           {loading ? (
-            <div className="error-loader-container">
+            <div className="loader-container">
               <div className="loader"></div>
             </div>
           ) : (
@@ -37,9 +53,15 @@ const Posts = () => {
               {posts.map((post, index) => (
                 <div className="post" key={index}>
                   <div className="post-title">{post.title}</div>
-                  <div className="post-date">{post.datetime}</div>
+                  <div className="post-date">
+                    {adjustDateTime(post.datetime)}
+                  </div>
                   <div className="post-message">{post.message}</div>
-                  <div className="post-message">By: {post.username}</div>
+                  <div style={{ textAlign: "right" }} className="post-message">
+                    <div style={{ fontFamily: "Playwrite CU" }}>
+                      {post.username}
+                    </div>
+                  </div>
                   <div className="post-message">{post.reacts}</div>
                 </div>
               ))}

@@ -18,6 +18,7 @@ const Header = () => {
   const handleSignOut = () => {
     localStorage.clear();
     setShowMenu(!showMenu);
+    location("/");
   };
 
   return (

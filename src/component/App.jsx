@@ -6,6 +6,7 @@ import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./SignIn";
 import About from "./About";
 import PostForm from "./PostForm";
+import Register from "./Register";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             }
           />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/postform" element={<PostForm />} />
         </Routes>

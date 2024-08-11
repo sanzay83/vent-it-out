@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const PostSection = () => {
   const navigate = useNavigate();
+  const user = localStorage.getItem("username");
 
   const handlePostSection = () => {
     if (localStorage.getItem("username")) {
@@ -13,7 +14,13 @@ const PostSection = () => {
   };
   return (
     <div className="container input-section">
-      <div>Hello, {localStorage.getItem("username")}</div>
+      {user ? (
+        <div style={{ fontSize: "1.5em", paddingLeft: "1em" }}>
+          Hello, {user}
+        </div>
+      ) : (
+        ""
+      )}
       <div className="input-box" onClick={handlePostSection}>
         What's on your mind?
       </div>
