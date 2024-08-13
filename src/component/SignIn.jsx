@@ -46,8 +46,6 @@ const SignIn = () => {
       {loading ? (
         <div>
           <Loader />
-          <br />
-          <div>Signing In</div>
         </div>
       ) : (
         <div className="signin-box">

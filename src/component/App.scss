@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playwrite+CU:wght@100..400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Alfa+Slab+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 
 $c1: #e9c46a;
 $c2: #2a9d8f;
@@ -12,6 +13,13 @@ $c5: #e76f51;
   background-color: black;
   border-color: white;
 }
+
+.light {
+  background-color: white;
+  color: black;
+  border-color: black;
+}
+
 .App {
   display: grid;
   grid-template-columns: 1fr;
@@ -92,7 +100,8 @@ $c5: #e76f51;
 
 .input-section {
   width: 100%;
-  transition: box-shadow 0.3s ease;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .whatsonyourmind {
@@ -124,12 +133,16 @@ $c5: #e76f51;
 }
 
 .post-title {
+  font-family: "Alegreya", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 5px;
 }
 
 .post-date {
+  opacity: 50%;
   font-size: 0.9em;
   margin-bottom: 10px;
 }
@@ -138,9 +151,16 @@ $c5: #e76f51;
   font-size: 1em;
 }
 
-.post .post-message:last-child {
-  text-align: right;
-  margin-top: 15px;
+.post .reaction-signature {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.post .reaction-signature .post-reaction {
+  color: rgb(117, 117, 255);
+  cursor: pointer;
 }
 
 .post .post-message:last-child div {

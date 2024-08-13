@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
+import { AiFillLike } from "react-icons/ai";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [liked, setLiked] = useState(0);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -21,7 +24,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [liked]);
 
   const adjustDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -36,6 +39,26 @@ const Posts = () => {
     });
 
     return `${formattedDate} ${formattedTime}`;
+  };
+
+  const handleReaction = async (postid, username, reaction) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        `${API_URL}/vio/posts/reaction`,
+        {
+          postid,
+          username,
+          reaction,
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setLiked(response.data.message);
+    } catch (err) {
+      console.log(error);
+    }
   };
 
   return (
@@ -58,12 +81,23 @@ const Posts = () => {
                   <div style={{ padding: "5px 0" }} className="post-message">
                     {post.message}
                   </div>
-                  <div style={{ textAlign: "right" }} className="post-message">
+                  <div className="reaction-signature">
+                    <div
+                      className="post-reaction"
+                      onClick={() =>
+                        handleReaction(
+                          post.postid,
+                          post.username,
+                          post.reaction
+                        )
+                      }
+                    >
+                      <AiFillLike size={"1.2em"} /> {post.reaction}
+                    </div>
                     <div style={{ fontFamily: "Playwrite CU" }}>
                       {post.username}
                     </div>
                   </div>
-                  <div className="post-message">{post.reacts}</div>
                 </div>
               ))}
             </>

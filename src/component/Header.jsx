@@ -23,17 +23,17 @@ const Header = ({ setIsDark }) => {
   };
 
   useEffect(() => {
-    localStorage.setItem("theme", "");
+    localStorage.setItem("theme", "light");
   }, []);
 
   const handleIsDark = () => {
     setShowMenu(!showMenu);
     const theme = localStorage.getItem("theme");
-    if (!theme) {
+    if (!theme || theme === "light") {
       localStorage.setItem("theme", "dark");
       setIsDark(true);
     } else if (theme === "dark") {
-      localStorage.setItem("theme", "");
+      localStorage.setItem("theme", "light");
       setIsDark(false);
     }
   };
