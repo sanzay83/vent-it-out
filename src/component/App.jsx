@@ -7,12 +7,15 @@ import SignIn from "./SignIn";
 import About from "./About";
 import PostForm from "./PostForm";
 import Register from "./Register";
+import { useState } from "react";
 
 const App = () => {
+  const [isDark, setIsDark] = useState(false);
+
   return (
     <Router>
-      <div className="App">
-        <Header />
+      <div className={`App ${localStorage.getItem("theme")}`}>
+        <Header setIsDark={setIsDark} />
         <Routes>
           <Route
             path="/"
