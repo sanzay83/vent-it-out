@@ -41,21 +41,27 @@ const Posts = () => {
     return `${formattedDate} ${formattedTime}`;
   };
 
-  const handleReaction = async (postid, username, reaction) => {
+  const handleReaction = async (postid, postuser, reaction) => {
     try {
+      const user = localStorage.getItem("username");
       const token = localStorage.getItem("token");
-      const response = await axios.post(
-        `${API_URL}/vio/posts/reaction`,
-        {
-          postid,
-          username,
-          reaction,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      setLiked(response.data.message);
+      if (token) {
+        const response = await axios.post(
+          `${API_URL}/vio/posts/reaction`,
+          {
+            postid,
+            user,
+            postuser,
+            reaction,
+          },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        setLiked(response.data.message);
+      } else {
+        alert("Please login to like posts.");
+      }
     } catch (err) {
       console.log(error);
     }
