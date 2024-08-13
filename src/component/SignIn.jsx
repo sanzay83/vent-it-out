@@ -44,7 +44,7 @@ const SignIn = () => {
   return (
     <div className="container signin-container">
       {loading ? (
-        <div className="loader-container">
+        <div>
           <Loader />
           <br />
           <div>Signing In</div>

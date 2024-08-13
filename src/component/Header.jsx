@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [isDark, setIsDark] = useState(false);
   const location = useNavigate();
   const handleHamburger = () => {
     setShowMenu(!showMenu);
@@ -21,6 +22,21 @@ const Header = () => {
     location("/");
   };
 
+  useEffect(() => {
+    localStorage.setItem("theme", "");
+  }, []);
+
+  const handleIsDark = () => {
+    const theme = localStorage.getItem("theme");
+    if (!theme) {
+      localStorage.setItem("theme", "dark");
+      setIsDark(true);
+    } else if (theme === "dark") {
+      localStorage.setItem("theme", "");
+      setIsDark(false);
+    }
+  };
+
   return (
     <>
       <div className="container header">
@@ -34,6 +50,15 @@ const Header = () => {
         <div
           className={`hamburger-menu-items ${showMenu ? "" : "menu-disabled"}`}
         >
+          {isDark ? (
+            <div className="menu-item" onClick={() => handleIsDark()}>
+              Dark Off
+            </div>
+          ) : (
+            <div className="menu-item" onClick={() => handleIsDark()}>
+              Dark On
+            </div>
+          )}
           {localStorage.getItem("token") ? (
             <div className="menu-item" onClick={() => handleSignOut()}>
               Sign Out

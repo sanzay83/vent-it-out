@@ -57,7 +57,7 @@ const PostForm = () => {
             placeholder="Title"
           />
 
-          <input
+          <textarea
             type="text"
             id="message"
             value={message}

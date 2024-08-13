@@ -21,7 +21,7 @@ const PostSection = () => {
       ) : (
         ""
       )}
-      <div className="input-box" onClick={handlePostSection}>
+      <div className="whatsonyourmind" onClick={handlePostSection}>
         What's on your mind?
       </div>
     </div>

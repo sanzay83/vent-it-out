@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
+import Loader from "./Loader";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -45,9 +46,7 @@ const Posts = () => {
         <>
           {" "}
           {loading ? (
-            <div className="loader-container">
-              <div className="loader"></div>
-            </div>
+            <Loader />
           ) : (
             <>
               {posts.map((post, index) => (
@@ -56,7 +55,9 @@ const Posts = () => {
                   <div className="post-date">
                     {adjustDateTime(post.datetime)}
                   </div>
-                  <div className="post-message">{post.message}</div>
+                  <div style={{ padding: "5px 0" }} className="post-message">
+                    {post.message}
+                  </div>
                   <div style={{ textAlign: "right" }} className="post-message">
                     <div style={{ fontFamily: "Playwrite CU" }}>
                       {post.username}
