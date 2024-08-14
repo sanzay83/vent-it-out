@@ -2,27 +2,35 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
-import { AiFillLike } from "react-icons/ai";
 
-const Posts = () => {
+const MyPosts = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const [noPostMessage, setNoPostMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [moreLoading, setMoreLoading] = useState(false);
-  const [liked, setLiked] = useState(0);
-  const [page, setPage] = useState(0);
 
   useEffect(() => {
     const fetchPosts = async () => {
+      const token = localStorage.getItem("token");
       try {
-        setMoreLoading(true);
-        const response = await axios.get(
-          `${API_URL}/vio/posts?page=${page}&limit=${"10"}`
-        );
-        const posts = response.data;
-        setPosts((prev) => [...prev, ...posts]);
+        if (token) {
+          const username = localStorage.getItem("username");
+          const response = await axios.post(
+            `${API_URL}/vio/posts/userpost`,
+            { username },
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const posts = response.data.reverse();
+          if (posts) {
+            setPosts(posts);
+          } else {
+            setNoPostMessage("You have not posted anything in 24hrs");
+          }
+        }
+
         setLoading(false);
-        setMoreLoading(false);
       } catch (err) {
         setError(err.message);
         setLoading(false);
@@ -30,7 +38,7 @@ const Posts = () => {
     };
 
     fetchPosts();
-  }, [liked, page]);
+  }, []);
 
   const adjustDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -47,34 +55,17 @@ const Posts = () => {
     return `${formattedDate} ${formattedTime}`;
   };
 
-  const handleReaction = async (postid, postuser, reaction) => {
+  const handleDelete = async (postid) => {
+    const token = localStorage.getItem("token");
     try {
-      const user = localStorage.getItem("username");
-      const token = localStorage.getItem("token");
       if (token) {
-        const response = await axios.post(
-          `${API_URL}/vio/posts/reaction`,
-          {
-            postid,
-            user,
-            postuser,
-            reaction,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-        setLiked(response.data.message);
-      } else {
-        alert("Please login to like posts.");
+        await axios.delete(`${API_URL}/vio/posts/${postid}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
       }
     } catch (err) {
-      console.log(error);
+      console.log(err);
     }
-  };
-
-  const handleShowMore = () => {
-    setPage((prev) => prev + 1);
   };
 
   return (
@@ -83,11 +74,11 @@ const Posts = () => {
         <div className="loader-container">{error}</div>
       ) : (
         <>
-          {" "}
           {loading ? (
             <Loader />
           ) : (
             <>
+              {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
                 <div className="post" key={index}>
                   <div className="post-title">{post.title}</div>
@@ -100,15 +91,9 @@ const Posts = () => {
                   <div className="reaction-signature">
                     <div
                       className="post-reaction"
-                      onClick={() =>
-                        handleReaction(
-                          post.postid,
-                          post.username,
-                          post.reaction
-                        )
-                      }
+                      onClick={() => handleDelete(post.postid)}
                     >
-                      <AiFillLike size={"1.2em"} /> {post.reaction}
+                      Delete
                     </div>
                     <div style={{ fontFamily: "Playwrite CU" }}>
                       {post.username}
@@ -116,16 +101,6 @@ const Posts = () => {
                   </div>
                 </div>
               ))}
-              {moreLoading ? (
-                <Loader />
-              ) : (
-                <div
-                  className="show-more-button"
-                  onClick={() => handleShowMore()}
-                >
-                  {"See More >"}
-                </div>
-              )}
             </>
           )}
         </>
@@ -134,4 +109,4 @@ const Posts = () => {
   );
 };
 
-export default Posts;
+export default MyPosts;

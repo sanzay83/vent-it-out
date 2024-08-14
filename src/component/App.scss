@@ -167,6 +167,19 @@ $c5: #e76f51;
   font-family: "Playwrite CU", serif;
 }
 
+.show-more-button {
+  display: flex;
+  justify-content: center;
+  font-size: 25px;
+  padding: 2rem;
+  color: rgb(0, 0, 170);
+}
+
+.show-more-button:hover {
+  scale: 1.1;
+  color: rgb(0, 0, 255);
+}
+
 ///////////////////////////////////////////
 ///                   Loader            ///
 ///////////////////////////////////////////

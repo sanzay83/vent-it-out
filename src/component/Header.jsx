@@ -61,9 +61,14 @@ const Header = ({ setIsDark }) => {
             </div>
           )}
           {localStorage.getItem("token") ? (
-            <div className="menu-item" onClick={() => handleSignOut()}>
-              Sign Out
-            </div>
+            <>
+              <div className="menu-item" onClick={() => handleSignOut()}>
+                Sign Out
+              </div>
+              <div className="menu-item" onClick={() => handleLink("myposts")}>
+                MyPosts
+              </div>
+            </>
           ) : (
             <div className="menu-item" onClick={() => handleLink("signin")}>
               Sign In

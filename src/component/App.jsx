@@ -8,6 +8,7 @@ import About from "./About";
 import PostForm from "./PostForm";
 import Register from "./Register";
 import { useState } from "react";
+import MyPosts from "./MyPosts";
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route path="/about" element={<About />} />
           <Route path="/postform" element={<PostForm />} />
+          <Route path="/myposts" element={<MyPosts />} />
         </Routes>
       </div>
     </Router>
