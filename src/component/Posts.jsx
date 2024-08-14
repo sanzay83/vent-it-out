@@ -11,6 +11,7 @@ const Posts = () => {
   const [moreLoading, setMoreLoading] = useState(false);
   const [liked, setLiked] = useState(0);
   const [page, setPage] = useState(0);
+  const [noMoreData, setNoMoreData] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -21,6 +22,9 @@ const Posts = () => {
         );
         const posts = response.data;
         setPosts((prev) => [...prev, ...posts]);
+        if (posts.length < 10) {
+          setNoMoreData(true);
+        }
         setLoading(false);
         setMoreLoading(false);
       } catch (err) {
@@ -119,12 +123,19 @@ const Posts = () => {
               {moreLoading ? (
                 <Loader />
               ) : (
-                <div
-                  className="show-more-button"
-                  onClick={() => handleShowMore()}
-                >
-                  {"See More >"}
-                </div>
+                <>
+                  {" "}
+                  {noMoreData ? (
+                    <div className="show-more-button">No more data to load</div>
+                  ) : (
+                    <div
+                      className="show-more-button"
+                      onClick={() => handleShowMore()}
+                    >
+                      {"See More >"}
+                    </div>
+                  )}
+                </>
               )}
             </>
           )}
