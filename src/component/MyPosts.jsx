@@ -8,6 +8,7 @@ const MyPosts = () => {
   const [error, setError] = useState(null);
   const [noPostMessage, setNoPostMessage] = useState("");
   const [loading, setLoading] = useState(true);
+  const [deleteCheck, setDeleteCheck] = useState(false);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -26,7 +27,7 @@ const MyPosts = () => {
           if (posts) {
             setPosts(posts);
           } else {
-            setNoPostMessage("You have not posted anything in 24hrs");
+            setNoPostMessage("You have not posted anything...");
           }
         }
 
@@ -38,7 +39,7 @@ const MyPosts = () => {
     };
 
     fetchPosts();
-  }, []);
+  }, [deleteCheck]);
 
   const adjustDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -63,13 +64,14 @@ const MyPosts = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
       }
+      setDeleteCheck(!deleteCheck);
     } catch (err) {
       console.log(err);
     }
   };
 
   return (
-    <div className="container posts">
+    <div className="main-content">
       {error ? (
         <div className="loader-container">{error}</div>
       ) : (

@@ -40,16 +40,18 @@ const Header = ({ setIsDark }) => {
 
   return (
     <>
-      <div className="container header">
+      <div className="header largerscreen">
         <div className="header-title">Vent It Out</div>
-        <div className="header-hamburger-menu">
+        <div className="header-hamburger-menu largerscreenhamburger">
           <div onClick={handleHamburger}>
             {showMenu ? <IoCloseSharp /> : <GiHamburgerMenu />}
           </div>
         </div>
 
         <div
-          className={`hamburger-menu-items ${showMenu ? "" : "menu-disabled"}`}
+          className={`hamburger-menu-items largerscreenhamburger ${
+            showMenu ? "" : "menu-disabled"
+          }`}
         >
           {localStorage.getItem("theme") === "dark" ? (
             <div className="menu-item" onClick={() => handleIsDark()}>
@@ -83,6 +85,45 @@ const Header = ({ setIsDark }) => {
             About
           </div>
         </div>
+      </div>
+
+      <div className="aside aside-left">
+        <div className="menu-item" onClick={() => handleLink("")}>
+          Home
+        </div>
+        {localStorage.getItem("token") ? (
+          <div className="menu-item" onClick={() => handleLink("myposts")}>
+            MyPosts
+          </div>
+        ) : (
+          ""
+        )}
+        <div className="menu-item" onClick={() => handleLink("about")}>
+          About
+        </div>
+      </div>
+
+      <div className="aside aside-right">
+        {localStorage.getItem("theme") === "dark" ? (
+          <div className="menu-item" onClick={() => handleIsDark()}>
+            Dark Off
+          </div>
+        ) : (
+          <div className="menu-item" onClick={() => handleIsDark()}>
+            Dark On
+          </div>
+        )}
+        {localStorage.getItem("token") ? (
+          <>
+            <div className="menu-item" onClick={() => handleSignOut()}>
+              Sign Out
+            </div>
+          </>
+        ) : (
+          <div className="menu-item" onClick={() => handleLink("signin")}>
+            Sign In
+          </div>
+        )}
       </div>
     </>
   );

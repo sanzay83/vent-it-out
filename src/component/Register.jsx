@@ -38,7 +38,7 @@ const Register = () => {
   };
 
   return (
-    <div className="container signin-container">
+    <div className="main-content">
       <div className="signin-box">
         <form onSubmit={handleRegister}>
           <div className="title">Register</div>
@@ -59,7 +59,7 @@ const Register = () => {
           />
           <button type="submit">Register</button>
           <div className="account-create" onClick={handleCreate}>
-            Go back to sign in page.
+            <b>{"< Go back"}</b>
           </div>
         </form>
         {showMessage ? `${showMessage}` : ""}

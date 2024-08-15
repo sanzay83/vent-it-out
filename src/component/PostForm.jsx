@@ -45,7 +45,7 @@ const PostForm = () => {
   };
 
   return (
-    <div className="container signin-container">
+    <div className="main-content">
       <div className="signin-box">
         <form onSubmit={handlePost}>
           <div className="title">Post</div>

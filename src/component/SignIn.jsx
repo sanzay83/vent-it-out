@@ -42,7 +42,7 @@ const SignIn = () => {
   };
 
   return (
-    <div className="container signin-container">
+    <div className="main-content">
       {loading ? (
         <div>
           <Loader />
@@ -66,7 +66,7 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
-            <div className="forget">Forget password?</div>
+            {/* <div className="forget">Forget password?</div> */}
             <button type="submit">Login</button>
             <div className="account-create" onClick={handleCreate}>
               Don't have an account? <b>Create</b>

@@ -1,6 +1,5 @@
 import Header from "./Header";
 import "./App.scss";
-import PostSection from "./PostSection";
 import Posts from "./Posts";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./SignIn";
@@ -22,7 +21,6 @@ const App = () => {
             path="/"
             element={
               <>
-                <PostSection />
                 <Posts />
               </>
             }

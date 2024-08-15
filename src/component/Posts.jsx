@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
 import { AiFillLike } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -12,6 +13,8 @@ const Posts = () => {
   const [liked, setLiked] = useState(0);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
+  const navigate = useNavigate();
+  const user = localStorage.getItem("username");
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -77,12 +80,20 @@ const Posts = () => {
     }
   };
 
+  const handlePostSection = () => {
+    if (localStorage.getItem("username")) {
+      navigate("/postform");
+    } else {
+      navigate("/signin");
+    }
+  };
+
   const handleShowMore = () => {
     setPage((prev) => prev + 1);
   };
 
   return (
-    <div className="container posts">
+    <div className="main-content">
       {error ? (
         <div className="loader-container">{error}</div>
       ) : (
@@ -92,6 +103,13 @@ const Posts = () => {
             <Loader />
           ) : (
             <>
+              <div className="post">
+                <div className="whatsonyourmind" onClick={handlePostSection}>
+                  {user
+                    ? `What's on your mind, ${user}`
+                    : "Please Sign In to Post."}
+                </div>
+              </div>
               {posts.map((post, index) => (
                 <div className="post" key={index}>
                   <div className="post-title">{post.title}</div>
@@ -126,13 +144,15 @@ const Posts = () => {
                 <>
                   {" "}
                   {noMoreData ? (
-                    <div className="show-more-button">No more data to load</div>
+                    <div className="post">
+                      <div className="post-title">No more data to load</div>
+                    </div>
                   ) : (
                     <div
-                      className="show-more-button"
+                      className="post show-more"
                       onClick={() => handleShowMore()}
                     >
-                      {"See More >"}
+                      <div className="post-title">{"See More >"}</div>
                     </div>
                   )}
                 </>

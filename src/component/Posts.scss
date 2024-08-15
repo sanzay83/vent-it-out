@@ -1,0 +1,63 @@
+.whatsonyourmind {
+  border: 1px solid green;
+  font-size: 1em;
+  font-weight: 600;
+  text-align: center;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.whatsonyourmind:hover {
+  background-color: #e9c46a;
+}
+
+.post {
+  border-bottom: 1px solid #ffffff;
+  padding: 15px;
+}
+
+.post-title {
+  font-family: "Alegreya", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.post-date {
+  opacity: 50%;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.post-message {
+  font-size: 1em;
+}
+
+.post .reaction-signature {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.post .reaction-signature .post-reaction {
+  color: rgb(117, 117, 255);
+  cursor: pointer;
+}
+
+.post .post-message:last-child div {
+  font-family: "Playwrite CU", serif;
+}
+
+.show-more {
+  text-align: center;
+  cursor: pointer;
+}
+
+.show-more:hover {
+  text-decoration: underline;
+}
