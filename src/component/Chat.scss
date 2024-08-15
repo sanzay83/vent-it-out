@@ -1,0 +1,49 @@
+.only-for-chat {
+  width: 320px;
+  padding: 0;
+  max-width: 700px;
+}
+
+.chat-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.chat-user-message {
+  padding: 5px;
+  margin: 5px;
+  border: 1px solid green;
+  border-radius: 15px;
+}
+
+.chat-container {
+  padding: 5px;
+  color: white;
+}
+
+.chat-container .left {
+  margin-right: 60px;
+  background-color: rgb(75, 75, 75);
+}
+
+.chat-container .right {
+  margin-left: 60px;
+  background-color: rgb(14, 173, 0);
+}
+
+.messages-container {
+  height: 300px;
+  overflow: auto;
+}
+
+.message-send {
+  display: flex;
+}
+
+.message-send input {
+  height: 2.5rem;
+}
+
+.message-send button {
+  height: 2.5rem;
+}

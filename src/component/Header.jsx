@@ -66,6 +66,9 @@ const Header = ({ isDark, setIsDark }) => {
               <div className="menu-item" onClick={() => handleLink("myposts")}>
                 MyPosts
               </div>
+              <div className="menu-item" onClick={() => handleLink("chat")}>
+                Chat
+              </div>
             </>
           ) : (
             <div className="menu-item" onClick={() => handleLink("signin")}>
@@ -88,12 +91,18 @@ const Header = ({ isDark, setIsDark }) => {
           Home
         </div>
         {localStorage.getItem("token") ? (
-          <div className="menu-item" onClick={() => handleLink("myposts")}>
-            MyPosts
-          </div>
+          <>
+            <div className="menu-item" onClick={() => handleLink("myposts")}>
+              MyPosts
+            </div>
+            <div className="menu-item" onClick={() => handleLink("chat")}>
+              Chat
+            </div>
+          </>
         ) : (
           ""
         )}
+
         <div className="menu-item" onClick={() => handleLink("about")}>
           About
         </div>
