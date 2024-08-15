@@ -15,7 +15,7 @@ const App = () => {
   return (
     <Router>
       <div className={`App ${localStorage.getItem("theme")}`}>
-        <Header setIsDark={setIsDark} />
+        <Header isDark={isDark} setIsDark={setIsDark} />
         <Routes>
           <Route
             path="/"

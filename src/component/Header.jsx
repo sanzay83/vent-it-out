@@ -3,7 +3,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({ setIsDark }) => {
+const Header = ({ isDark, setIsDark }) => {
   const [showMenu, setShowMenu] = useState(false);
 
   const location = useNavigate();
@@ -53,7 +53,7 @@ const Header = ({ setIsDark }) => {
             showMenu ? "" : "menu-disabled"
           }`}
         >
-          {localStorage.getItem("theme") === "dark" ? (
+          {isDark ? (
             <div className="menu-item" onClick={() => handleIsDark()}>
               Dark Off
             </div>
@@ -104,7 +104,7 @@ const Header = ({ setIsDark }) => {
       </div>
 
       <div className="aside aside-right">
-        {localStorage.getItem("theme") === "dark" ? (
+        {isDark ? (
           <div className="menu-item" onClick={() => handleIsDark()}>
             Dark Off
           </div>
