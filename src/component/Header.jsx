@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoCloseSharp } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -21,10 +21,6 @@ const Header = ({ isDark, setIsDark }) => {
     setShowMenu(!showMenu);
     location("/");
   };
-
-  useEffect(() => {
-    localStorage.setItem("theme", "light");
-  }, []);
 
   const handleIsDark = () => {
     setShowMenu(!showMenu);

@@ -14,7 +14,7 @@ const App = () => {
 
   return (
     <Router>
-      <div className={`App ${localStorage.getItem("theme")}`}>
+      <div className={`App ${localStorage.getItem("theme") || "light"}`}>
         <Header isDark={isDark} setIsDark={setIsDark} />
         <Routes>
           <Route
