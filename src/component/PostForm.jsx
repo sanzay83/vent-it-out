@@ -25,19 +25,15 @@ const PostForm = () => {
       if (!title && !message) {
       }
       const token = localStorage.getItem("token");
-      await axios.post(
-        `${API_URL}/vio/posts`,
-        {
+      if (token) {
+        await axios.post(`${API_URL}/vio/posts`, {
           username,
           title,
           datetime,
           message,
           reaction,
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
+        });
+      }
       navigate("/");
     } catch (error) {
       setError("Make sure you are Signed In, Title and Message is not empty.");

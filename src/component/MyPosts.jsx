@@ -16,13 +16,9 @@ const MyPosts = () => {
       try {
         if (token) {
           const username = localStorage.getItem("username");
-          const response = await axios.post(
-            `${API_URL}/vio/posts/userpost`,
-            { username },
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            }
-          );
+          const response = await axios.post(`${API_URL}/vio/posts/userpost`, {
+            username,
+          });
           const posts = response.data.reverse();
           if (posts) {
             setPosts(posts);
@@ -60,9 +56,7 @@ const MyPosts = () => {
     const token = localStorage.getItem("token");
     try {
       if (token) {
-        await axios.delete(`${API_URL}/vio/posts/${postid}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await axios.delete(`${API_URL}/vio/posts/${postid}`);
       }
       setDeleteCheck(!deleteCheck);
     } catch (err) {

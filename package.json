@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "https": "HTTPS=true SSL_CRT_FILE=./server.cert SSL_KEY_FILE=./server.key react-scripts start"
   },
   "eslintConfig": {
     "extends": [

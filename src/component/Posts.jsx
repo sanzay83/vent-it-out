@@ -59,18 +59,12 @@ const Posts = () => {
       const user = localStorage.getItem("username");
       const token = localStorage.getItem("token");
       if (token) {
-        const response = await axios.post(
-          `${API_URL}/vio/posts/reaction`,
-          {
-            postid,
-            user,
-            postuser,
-            reaction,
-          },
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
+        const response = await axios.post(`${API_URL}/vio/posts/reaction`, {
+          postid,
+          user,
+          postuser,
+          reaction,
+        });
         setLiked(response.data.message);
       } else {
         alert("Please login to like posts.");
