@@ -1,5 +1,4 @@
 .only-for-chat {
-  width: 320px;
   padding: 0;
   max-width: 700px;
 }
@@ -14,6 +13,14 @@
   margin: 5px;
   border: 1px solid green;
   border-radius: 15px;
+}
+
+.chat-user-message .user-name {
+  font-size: 1.1em;
+  font-family: "Playwrite CU", cursive;
+}
+.chat-user-message .user-msg {
+  font-size: 1.1em;
 }
 
 .chat-container {
@@ -32,7 +39,7 @@
 }
 
 .messages-container {
-  height: 300px;
+  height: 70vh;
   overflow: auto;
 }
 
@@ -40,10 +47,46 @@
   display: flex;
 }
 
-.message-send input {
+.send-message-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.send-message-container input {
   height: 2.5rem;
 }
 
-.message-send button {
+.send-message-container button {
   height: 2.5rem;
+}
+
+@media screen and (max-width: 767px) {
+  .only-for-chat {
+    padding: 0;
+    max-width: 700px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .messages-container {
+    height: 70vh;
+    overflow: auto;
+    min-width: 500px;
+  }
+
+  .only-for-chat {
+    padding: 0;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .messages-container {
+    height: 70vh;
+    overflow: auto;
+    min-width: 700px;
+  }
+
+  .only-for-chat {
+    padding: 0;
+  }
 }

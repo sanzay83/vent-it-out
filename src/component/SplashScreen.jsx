@@ -58,8 +58,10 @@ function SplashScreen({ setIsSplash }) {
   const randomNumber = Math.floor(Math.random() * varr.length);
 
   const handleButton = () => {
-    setIsSplash(false);
+    setIsSplash(true);
+    localStorage.setItem("flash", true);
   };
+
   return (
     <>
       <div className="splash-screen">

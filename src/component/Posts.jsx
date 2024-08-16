@@ -20,14 +20,11 @@ const Posts = () => {
     const fetchPosts = async () => {
       try {
         setMoreLoading(true);
-        axios.defaults.headers.post["Content-Type"] = "application/json";
         const response = await axios.get(
           `${API_URL}/vio/posts?page=${page}&limit=${"10"}`,
           {
             headers: {
               "Access-Control-Allow-Origin": "*",
-              "Access-Control-Allow-Methods":
-                "GET,PUT,POST,DELETE,PATCH,OPTIONS",
             },
           }
         );

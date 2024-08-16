@@ -10,15 +10,17 @@ $c2: #2a9d8f;
 $c3: #264653;
 $c4: #f4a261;
 $c5: #e76f51;
+$black-selected: rgb(43, 43, 43);
+$white-selected: rgb(221, 221, 221);
 
 .dark {
-  color: rgb(221, 221, 221);
-  background-color: rgb(43, 43, 43);
+  color: $white-selected;
+  background-color: $black-selected;
 }
 
 .light {
-  background-color: rgb(221, 221, 221);
-  color: rgb(43, 43, 43);
+  background-color: $white-selected;
+  color: $black-selected;
 }
 
 .App {
@@ -37,7 +39,6 @@ $c5: #e76f51;
   grid-row: 2;
   padding: 0 20px;
   min-width: 250px;
-  max-width: 600px;
   min-height: 90vh;
 }
 
@@ -49,6 +50,10 @@ button {
   .aside {
     display: none;
   }
+
+  .main-content {
+    max-width: 600px;
+  }
 }
 
 @media screen and (min-width: 767px) {
@@ -56,15 +61,14 @@ button {
     display: none;
   }
   .main-content {
-    padding: 0 5rem;
-    max-width: 700px;
+    padding: 0 1rem;
     grid-column: 2 / span 3;
     grid-row: 2;
   }
 
   .aside {
     font-size: 1.5rem;
-    padding: 0 3rem;
+    padding: 0 1.5rem;
     position: sticky;
     top: 5rem;
     min-width: 60px;
@@ -91,5 +95,11 @@ button {
 
   .menu-item:hover {
     text-decoration: underline;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .main-content {
+    max-width: 800px;
   }
 }

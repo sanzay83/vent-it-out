@@ -6,18 +6,26 @@ import SignIn from "./SignIn";
 import About from "./About";
 import PostForm from "./PostForm";
 import Register from "./Register";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MyPosts from "./MyPosts";
 import Chat from "./Chat";
 import SplashScreen from "./SplashScreen";
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
-  const [isSplash, setIsSplash] = useState(true);
+  const [isSplash, setIsSplash] = useState(localStorage.getItem("flash"));
+
+  useEffect(() => {
+    if (!localStorage.getItem("flash")) {
+      setIsSplash(false);
+    } else {
+      setIsSplash(true);
+    }
+  }, [isSplash]);
 
   return (
     <Router>
-      {isSplash ? (
+      {!isSplash ? (
         <SplashScreen setIsSplash={setIsSplash} />
       ) : (
         <div className={`App ${localStorage.getItem("theme") || "light"}`}>
