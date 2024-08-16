@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-//import { API_URL } from "../config";
-//import io from "socket.io-client";
+// import { API_URL } from "../config";
+// import io from "socket.io-client";
 // const socket = io(`${API_URL}`);
 const Chat = () => {
   const username = localStorage.getItem("username");
