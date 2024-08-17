@@ -5,8 +5,7 @@
 .header {
   display: grid;
   width: 100%;
-  height: 5rem;
-  font-size: 2rem;
+  height: 7rem;
   background-color: #264653;
   color: #e9c46a;
   position: sticky;
@@ -15,46 +14,89 @@
 }
 
 .header .header-title {
-  grid-column: 1 / span 3;
+  grid-column: 1 / span 4;
   grid-row: 1;
+  font-size: 2rem;
   font-family: "Playwrite CU", cursive;
   font-weight: 700;
   padding-left: 1rem;
 }
 
-.header .header-hamburger-menu {
-  grid-column: 1 / span 4;
+.header .dark-button-container {
+  grid-column: 5 / span 1;
   grid-row: 1;
-  text-align: right;
-  align-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: right;
   padding-right: 1em;
   cursor: pointer;
 }
 
-.hamburger-menu-items {
-  position: absolute;
-  top: 60px;
-  right: 0;
-  background-color: #444;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-}
-
-.hamburger-menu-items .menu-item {
-  padding: 10px 20px;
-  color: white;
-  font-family: "Roboto", sans-serif;
-  font-size: 1rem;
+.dark-mode-button {
   cursor: pointer;
-  transition: background-color 0.3s;
+  width: 50px;
+  height: 25px;
+  background-color: #868686;
+  border-radius: 15px;
+  position: relative;
 }
 
-.hamburger-menu-items .menu-item:hover {
-  background-color: #555;
+.dark-mode-button .on,
+.dark-mode-button .off {
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  transition: 0.3s ease;
 }
 
-.menu-disabled {
-  display: none;
+.dark-mode-button .on {
+  left: 25px;
+}
+
+.dark-mode-button .off {
+  left: 0;
+}
+
+.nav-bar {
+  grid-column: 1 / span 4;
+  grid-row: 2;
+  font-size: 1.2rem;
+  display: flex;
+  flex-direction: row;
+  font-weight: bold;
+}
+
+.nav-bar .nav-item {
+  padding-left: 20px;
+}
+.nav-bar .nav-item:hover {
+  text-decoration: underline;
+}
+
+.nav-bar-end {
+  grid-column: 5 / span 1;
+  grid-row: 2;
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  padding-right: 1em;
+}
+
+@media screen and (max-width: 425px) {
+  .header .header-title {
+    font-size: 1.5rem;
+  }
+
+  .nav-bar {
+    font-size: 1rem;
+  }
+  .nav-bar .nav-item {
+    padding-left: 10px;
+  }
+}
+
+@media screen and (min-width: 767px) {
+  .nav-hide {
+    display: none;
+  }
 }

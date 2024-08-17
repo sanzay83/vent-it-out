@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
 import { AiFillLike } from "react-icons/ai";
+import { IoMdArrowDropdown, IoMdSearch } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
@@ -107,6 +108,20 @@ const Posts = () => {
                   {user
                     ? `What's on your mind, ${user}`
                     : "Please Sign In to Post."}
+                </div>
+              </div>
+              <div className="post">
+                <div className="search-sort-container">
+                  <div className="search-side">
+                    <input placeholder="Search" />
+                    <div className="search-icon">
+                      <IoMdSearch />
+                    </div>
+                  </div>
+                  <div className="sort-side">
+                    {" "}
+                    Sort <IoMdArrowDropdown />
+                  </div>
                 </div>
               </div>
               {posts.map((post, index) => (

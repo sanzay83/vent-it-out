@@ -4,12 +4,13 @@
 }
 
 .chat-title {
+  margin-top: 1rem;
   font-size: 1.5rem;
   font-weight: bold;
 }
 
 .messages-container {
-  height: 70vh;
+  height: 60vh;
   overflow: auto;
 }
 
@@ -76,8 +77,6 @@
 
 @media screen and (min-width: 768px) and (max-width: 1024px) {
   .messages-container {
-    height: 70vh;
-    overflow: auto;
     min-width: 500px;
   }
 
@@ -88,8 +87,6 @@
 
 @media screen and (min-width: 1024px) {
   .messages-container {
-    height: 70vh;
-    overflow: auto;
     min-width: 700px;
   }
 
