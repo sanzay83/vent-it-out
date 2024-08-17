@@ -47,32 +47,45 @@ const Chat = () => {
     >
       <div className="chat-title">Global Chat</div>{" "}
       <div style={{ color: "green" }}>{userCount} online</div>
-      <div className="chat-container">
-        <div className="messages-container">
-          {messages.map((msg, index) => (
-            <div
-              className={`chat-user-message ${
-                username === msg.username ? "right" : "left"
-              }`}
-              key={index}
-            >
-              <div className="user-name">
-                {username === msg.username ? username : msg.username}
+      <div className="messages-container">
+        {messages.map((msg, index) => (
+          <>
+            {username === msg.username ? (
+              <div className="user-message-container chat-right">
+                <div className="chat-user-name">{username}</div>
+                <div
+                  className="chat-user-msg "
+                  style={{ backgroundColor: "#264653" }}
+                >
+                  {msg.message}
+                </div>
               </div>
-              <div className="user-msg">{msg.message}</div>
-            </div>
-          ))}
-          <div ref={chatEndRef} />
-        </div>
-        <div className="send-message-container" onSubmit={sendMessage}>
-          <input
-            type="text"
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            placeholder="Aa"
-          />
-          <button onClick={sendMessage}>Send</button>
-        </div>
+            ) : (
+              <div className="user-message-container chat-left">
+                <div className="chat-user-name">{msg.username}</div>
+                <div
+                  className="chat-user-msg"
+                  style={{ backgroundColor: "#162730" }}
+                >
+                  {msg.message}
+                </div>
+              </div>
+            )}
+            <div ref={chatEndRef} />
+          </>
+        ))}
+      </div>
+      <div className="send-message-container">
+        <input
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Aa"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") sendMessage();
+          }}
+        />
+        <button onClick={sendMessage}>Send</button>
       </div>
     </div>
   );
