@@ -11,10 +11,12 @@ const Posts = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [moreLoading, setMoreLoading] = useState(false);
-  const [liked, setLiked] = useState(0);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
-  const [sort, setSort] = useState("All");
+  const [type, setType] = useState("All");
+  const [liked, setLiked] = useState([0]);
+  const [inputSearchPost, setInputSearchPost] = useState("");
+  const [searchPost, setSearchPost] = useState("");
   const navigate = useNavigate();
   const user = localStorage.getItem("username");
 
@@ -23,7 +25,7 @@ const Posts = () => {
       try {
         setMoreLoading(true);
         const response = await axios.get(
-          `${API_URL}/vio/posts?page=${page}&limit=${"10"}`,
+          `${API_URL}/vio/posts?page=${page}&limit=${"10"}&postType=${type}`,
           {
             headers: {
               "Access-Control-Allow-Origin": "*",
@@ -31,10 +33,19 @@ const Posts = () => {
           }
         );
         const posts = response.data;
-        setPosts((prev) => [...prev, ...posts]);
+
+        if (type !== "All") {
+          setPosts(posts);
+        } else {
+          setPosts((prev) => [...prev, ...posts]);
+        }
+
         if (posts.length < 10) {
           setNoMoreData(true);
+        } else {
+          setNoMoreData(false);
         }
+
         setLoading(false);
         setMoreLoading(false);
       } catch (err) {
@@ -42,9 +53,34 @@ const Posts = () => {
         setLoading(false);
       }
     };
-
     fetchPosts();
-  }, [liked, page]);
+  }, [page, type]);
+
+  useEffect(() => {
+    const fetchSearchPosts = async () => {
+      try {
+        const response = await axios.get(
+          `https://vio.aapugu.com/vio/posts/search?search=${searchPost}&postType=${type}`,
+          {
+            headers: {
+              "Access-Control-Allow-Origin": "*",
+            },
+          }
+        );
+        const posts = response.data;
+        setPosts(posts);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (searchPost) {
+      fetchSearchPosts();
+    }
+  }, [liked, searchPost, type]);
+
+  const handleSearch = () => {
+    setSearchPost(inputSearchPost);
+  };
 
   const adjustDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -61,23 +97,32 @@ const Posts = () => {
     return `${formattedDate} ${formattedTime}`;
   };
 
-  const handleReaction = async (postid, postuser, reaction) => {
-    try {
-      const user = localStorage.getItem("username");
-      const token = localStorage.getItem("token");
-      if (token) {
-        const response = await axios.post(`${API_URL}/vio/posts/reaction`, {
-          postid,
-          user,
-          postuser,
-          reaction,
-        });
-        setLiked(response.data.message);
-      } else {
-        alert("Please login to like posts.");
+  const handleReaction = async (postid, postuser, reaction, post) => {
+    if (!liked.includes(postid)) {
+      console.log(liked);
+      let index = posts.indexOf(post);
+      posts[index]["reaction"] = reaction + 1;
+      setPosts(posts);
+      setLiked((prev) => [...prev, postid]);
+
+      try {
+        const user = localStorage.getItem("username");
+        const token = localStorage.getItem("token");
+        if (token) {
+          await axios.post(`${API_URL}/vio/posts/reaction`, {
+            postid,
+            user,
+            postuser,
+            reaction,
+          });
+        } else {
+          alert("Please login to like posts.");
+        }
+      } catch (err) {
+        console.log(error);
       }
-    } catch (err) {
-      console.log(error);
+    } else {
+      alert("Post already liked!");
     }
   };
 
@@ -93,9 +138,9 @@ const Posts = () => {
     setPage((prev) => prev + 1);
   };
 
-  const handleSort = (type) => {
-    setSort(type);
-    console.log(type);
+  const handleType = (itemType) => {
+    setType(itemType);
+    setPage(0);
   };
 
   return (
@@ -119,19 +164,27 @@ const Posts = () => {
               <div className="post">
                 <div className="search-sort-container">
                   <div className="search-side">
-                    <input placeholder="Search" />
-                    <div className="search-icon">
+                    <input
+                      type="text"
+                      value={inputSearchPost}
+                      onChange={(e) => setInputSearchPost(e.target.value)}
+                      placeholder="Search"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") handleSearch();
+                      }}
+                    />
+                    <div className="search-icon" onClick={handleSearch}>
                       <IoMdSearch />
                     </div>
                   </div>
                   <div className="sort-side">
                     {" "}
-                    {sort} <IoMdArrowDropdown />
+                    {type} <IoMdArrowDropdown />
                     <div className="dropdown-item">
-                      <div onClick={() => handleSort("All")}>All</div>
-                      <div onClick={() => handleSort("Sad")}>Sad</div>
-                      <div onClick={() => handleSort("Happy")}>Happy</div>
-                      <div onClick={() => handleSort("Other")}>Other</div>
+                      <div onClick={() => handleType("All")}>All</div>
+                      <div onClick={() => handleType("Sad")}>Sad</div>
+                      <div onClick={() => handleType("Happy")}>Happy</div>
+                      <div onClick={() => handleType("Other")}>Other</div>
                     </div>
                   </div>
                 </div>
@@ -152,11 +205,12 @@ const Posts = () => {
                         handleReaction(
                           post.postid,
                           post.username,
-                          post.reaction
+                          post.reaction,
+                          post
                         )
                       }
                     >
-                      <AiFillLike size={"1.2em"} /> {post.reaction}
+                      <AiFillLike className="like-icon" /> {post.reaction}
                     </div>
                     <div style={{ fontFamily: "Playwrite CU" }}>
                       {post.username}
@@ -168,18 +222,23 @@ const Posts = () => {
                 <Loader />
               ) : (
                 <>
-                  {" "}
-                  {noMoreData ? (
-                    <div className="post">
-                      <div className="post-title">No more data to load</div>
-                    </div>
+                  {searchPost ? (
+                    ""
                   ) : (
-                    <div
-                      className="post show-more"
-                      onClick={() => handleShowMore()}
-                    >
-                      <div className="post-title">{"See More >"}</div>
-                    </div>
+                    <>
+                      {noMoreData ? (
+                        <div className="post">
+                          <div className="post-title">No more data to load</div>
+                        </div>
+                      ) : (
+                        <div
+                          className="post show-more"
+                          onClick={() => handleShowMore()}
+                        >
+                          <div className="post-title">{"See More >"}</div>
+                        </div>
+                      )}
+                    </>
                   )}
                 </>
               )}

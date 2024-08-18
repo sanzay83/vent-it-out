@@ -32,6 +32,7 @@
   font-size: 1.5rem;
   background-color: rgb(238, 238, 238);
   border: 1px solid;
+  height: 2rem;
   padding-left: 10px;
   border-radius: 10px 0 0 10px;
 }
@@ -112,6 +113,13 @@
   cursor: pointer;
 }
 
+.post-reaction .like-icon {
+  font-size: 1.2rem;
+}
+.post-reaction .like-icon:hover {
+  font-size: 1.5rem;
+}
+
 .post .post-message:last-child div {
   font-family: "Playwrite CU", serif;
 }
@@ -130,10 +138,11 @@
   .search-sort-container .sort-side,
   .search-sort-container .search-side .search-icon {
     font-size: 0.9rem;
+    height: 1.5rem;
   }
 
   .search-sort-container .search-side .search-icon {
     width: 1.3rem;
-    height: 1.1rem;
+    height: 1.4rem;
   }
 }
