@@ -48,7 +48,34 @@
 
 .search-sort-container .sort-side {
   font-size: 1.5rem;
+  position: relative;
+  display: inline-block;
 }
+
+.dropdown-item {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: #f9f9f9;
+  min-width: 80px;
+  z-index: 1;
+}
+
+.dropdown-item div {
+  padding: 5px 10px;
+  text-decoration: none;
+  display: block;
+}
+
+.sort-side:hover .dropdown-item {
+  display: block;
+}
+
+.sort-side:hover .dropdown-item div:hover {
+  color: white;
+  background-color: black;
+}
+
 .post {
   border-bottom: 1px solid #ffffff;
   padding: 15px;

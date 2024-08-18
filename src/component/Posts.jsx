@@ -14,6 +14,7 @@ const Posts = () => {
   const [liked, setLiked] = useState(0);
   const [page, setPage] = useState(0);
   const [noMoreData, setNoMoreData] = useState(false);
+  const [sort, setSort] = useState("All");
   const navigate = useNavigate();
   const user = localStorage.getItem("username");
 
@@ -92,6 +93,11 @@ const Posts = () => {
     setPage((prev) => prev + 1);
   };
 
+  const handleSort = (type) => {
+    setSort(type);
+    console.log(type);
+  };
+
   return (
     <div className="main-content">
       {error ? (
@@ -120,7 +126,13 @@ const Posts = () => {
                   </div>
                   <div className="sort-side">
                     {" "}
-                    Sort <IoMdArrowDropdown />
+                    {sort} <IoMdArrowDropdown />
+                    <div className="dropdown-item">
+                      <div onClick={() => handleSort("All")}>All</div>
+                      <div onClick={() => handleSort("Sad")}>Sad</div>
+                      <div onClick={() => handleSort("Happy")}>Happy</div>
+                      <div onClick={() => handleSort("Other")}>Other</div>
+                    </div>
                   </div>
                 </div>
               </div>
