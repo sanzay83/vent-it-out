@@ -13,6 +13,7 @@ const PostForm = () => {
   const [type, setType] = useState("");
   const navigate = useNavigate();
 
+  const buttonType = ["Happy", "Sad", "Angry", "Love", "Surprise", "Relaxed"];
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
     const newDate = new Date();
@@ -66,49 +67,15 @@ const PostForm = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Message"
         />
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#FEFD97" }}
-          onClick={() => handleButton("Happy")}
-        >
-          Happy
-        </button>
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#8995a1" }}
-          onClick={() => handleButton("Sad")}
-        >
-          Sad
-        </button>
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#e43d2e" }}
-          onClick={() => handleButton("Angry")}
-        >
-          Angry
-        </button>
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#ff9fc4" }}
-          onClick={() => handleButton("Love")}
-        >
-          Love
-        </button>
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#a0ffc8" }}
-          onClick={() => handleButton("Surprise")}
-        >
-          Surprise
-        </button>
-        <button
-          className="type-button"
-          style={{ backgroundColor: "#BDE0FE" }}
-          onClick={() => handleButton("Relaxed")}
-        >
-          Relaxed
-        </button>
-        {type ? <>You have selected {type}</> : ""}
+
+        {buttonType.map((btn) => (
+          <button
+            className={`type-button ${btn} ${type === btn ? "active" : ""}`}
+            onClick={() => handleButton(btn)}
+          >
+            {btn}
+          </button>
+        ))}
         <button type="submit" onClick={handlePost}>
           Add Post
         </button>

@@ -24,6 +24,47 @@
   width: 18%;
   margin: 1%;
   height: 2rem;
+  border: none;
+}
+
+.posting-box .type-button:hover {
+  filter: brightness(85%);
+}
+
+.posting-box .active {
+  color: white;
+  filter: brightness(70%);
+  border: 1px solid;
+}
+
+.main-content .Happy {
+  background-color: #fefd97;
+  color: black;
+}
+
+.main-content .Sad {
+  background-color: #a3b2c0;
+  color: black;
+}
+
+.main-content .Angry {
+  background-color: #f06c60;
+  color: black;
+}
+
+.main-content .Love {
+  background-color: #ff9fc4;
+  color: black;
+}
+
+.main-content .Surprise {
+  background-color: #5fcf8e;
+  color: black;
+}
+
+.main-content .Relaxed {
+  background-color: #bde0fe;
+  color: black;
 }
 
 @media screen and (max-width: 767px) {
