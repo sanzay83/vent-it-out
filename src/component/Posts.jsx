@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
@@ -20,7 +20,7 @@ const Posts = () => {
   const navigate = useNavigate();
   const user = localStorage.getItem("username");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchPosts = async () => {
       try {
         setMoreLoading(true);
@@ -99,7 +99,6 @@ const Posts = () => {
 
   const handleReaction = async (postid, postuser, reaction, post) => {
     if (!liked.includes(postid)) {
-      console.log(liked);
       let index = posts.indexOf(post);
       posts[index]["reaction"] = reaction + 1;
       setPosts(posts);
@@ -182,15 +181,19 @@ const Posts = () => {
                     {type} <IoMdArrowDropdown />
                     <div className="dropdown-item">
                       <div onClick={() => handleType("All")}>All</div>
-                      <div onClick={() => handleType("Sad")}>Sad</div>
                       <div onClick={() => handleType("Happy")}>Happy</div>
-                      <div onClick={() => handleType("Other")}>Other</div>
+                      <div onClick={() => handleType("Sad")}>Sad</div>
+                      <div onClick={() => handleType("Angry")}>Angry</div>
+                      <div onClick={() => handleType("Love")}>Love</div>
+                      <div onClick={() => handleType("Surprise")}>Surprise</div>
+                      <div onClick={() => handleType("Relaxed")}>Relaxed</div>
                     </div>
                   </div>
                 </div>
               </div>
               {posts.map((post, index) => (
-                <div className="post" key={index}>
+                <div className={`post ${post.Type}`} key={index}>
+                  {console.log(post)}
                   <div className="post-title">{post.title}</div>
                   <div className="post-date">
                     {adjustDateTime(post.datetime)}

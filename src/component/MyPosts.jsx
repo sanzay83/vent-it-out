@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
@@ -10,7 +10,7 @@ const MyPosts = () => {
   const [loading, setLoading] = useState(true);
   const [deleteCheck, setDeleteCheck] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const fetchPosts = async () => {
       const token = localStorage.getItem("token");
       try {
@@ -29,7 +29,8 @@ const MyPosts = () => {
 
         setLoading(false);
       } catch (err) {
-        setError(err.message);
+        console.log(err);
+        setError("You have not posted anything yet...");
         setLoading(false);
       }
     };
