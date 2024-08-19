@@ -192,9 +192,13 @@ const Posts = () => {
                 </div>
               </div>
               {posts.map((post, index) => (
-                <div className={`post ${post.Type}`} key={index}>
+                <div className={`post ${post.type}`} key={index}>
                   {console.log(post)}
-                  <div className="post-title">{post.title}</div>
+
+                  <div className="post-title">
+                    <div>{post.title}</div> <div>{post.type}</div>
+                  </div>
+
                   <div className="post-date">
                     {adjustDateTime(post.datetime)}
                   </div>
