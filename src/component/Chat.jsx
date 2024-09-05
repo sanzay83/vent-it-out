@@ -49,7 +49,7 @@ const Chat = () => {
       <div style={{ color: "green" }}>{userCount} online</div>
       <div className="messages-container">
         {messages.map((msg, index) => (
-          <>
+          <div key={index}>
             {username === msg.username ? (
               <div className="user-message-container chat-right">
                 <div className="chat-user-name">{username}</div>
@@ -72,7 +72,7 @@ const Chat = () => {
               </div>
             )}
             <div ref={chatEndRef} />
-          </>
+          </div>
         ))}
       </div>
       <div className="send-message-container">

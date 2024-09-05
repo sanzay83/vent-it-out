@@ -193,8 +193,6 @@ const Posts = () => {
               </div>
               {posts.map((post, index) => (
                 <div className={`post ${post.type}`} key={index}>
-                  {console.log(post)}
-
                   <div className="post-title">
                     <div>{post.title}</div> <div>{post.type}</div>
                   </div>

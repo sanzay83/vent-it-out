@@ -27,7 +27,6 @@ const SignIn = () => {
         username,
         password,
       });
-      console.log(response);
       localStorage.setItem("username", username);
       localStorage.setItem("token", response.data.token);
       setLoading(false);
