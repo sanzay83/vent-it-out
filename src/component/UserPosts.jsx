@@ -2,29 +2,27 @@ import React, { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
+import { useLocation } from "react-router-dom";
 
-const MyPosts = () => {
+const UserPosts = () => {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [noPostMessage, setNoPostMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const [deleteCheck, setDeleteCheck] = useState(false);
+  const location = useLocation();
+  const { username } = location.state;
 
   useLayoutEffect(() => {
     const fetchPosts = async () => {
-      const token = localStorage.getItem("token");
       try {
-        if (token) {
-          const username = localStorage.getItem("username");
-          const response = await axios.post(`${API_URL}/vio/posts/userpost`, {
-            username,
-          });
-          const posts = response.data.reverse();
-          if (posts) {
-            setPosts(posts);
-          } else {
-            setNoPostMessage("You have not posted anything...");
-          }
+        const response = await axios.post(`${API_URL}/vio/posts/userpost`, {
+          username,
+        });
+        const posts = response.data.reverse();
+        if (posts) {
+          setPosts(posts);
+        } else {
+          setNoPostMessage("You have not posted anything...");
         }
 
         setLoading(false);
@@ -36,7 +34,7 @@ const MyPosts = () => {
     };
 
     fetchPosts();
-  }, [deleteCheck]);
+  });
 
   const adjustDateTime = (dateTimeString) => {
     const dateTime = new Date(dateTimeString);
@@ -51,18 +49,6 @@ const MyPosts = () => {
     });
 
     return `${formattedDate} ${formattedTime}`;
-  };
-
-  const handleDelete = async (postid) => {
-    const token = localStorage.getItem("token");
-    try {
-      if (token) {
-        await axios.delete(`${API_URL}/vio/posts/${postid}`);
-      }
-      setDeleteCheck(!deleteCheck);
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -89,12 +75,6 @@ const MyPosts = () => {
                     {post.message}
                   </div>
                   <div className="reaction-signature">
-                    <div
-                      className="post-reaction"
-                      onClick={() => handleDelete(post.postid)}
-                    >
-                      Delete
-                    </div>
                     <div style={{ fontFamily: "Playwrite CU" }}>
                       {post.username}
                     </div>
@@ -109,4 +89,4 @@ const MyPosts = () => {
   );
 };
 
-export default MyPosts;
+export default UserPosts;

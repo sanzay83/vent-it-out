@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import MyPosts from "./MyPosts";
 import Chat from "./Chat";
 import SplashScreen from "./SplashScreen";
+import UserPosts from "./UserPosts";
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -44,6 +45,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/postform" element={<PostForm />} />
             <Route path="/myposts" element={<MyPosts />} />
+            <Route path="/userposts" element={<UserPosts />} />
             <Route path="/chat" element={<Chat />} />
           </Routes>
         </div>

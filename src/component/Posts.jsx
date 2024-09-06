@@ -142,6 +142,10 @@ const Posts = () => {
     setPage(0);
   };
 
+  const handleLink = (username) => {
+    navigate("/userposts", { state: { username: username } });
+  };
+
   return (
     <div className="main-content">
       {error ? (
@@ -172,9 +176,11 @@ const Posts = () => {
                         if (e.key === "Enter") handleSearch();
                       }}
                     />
-                    <div className="search-icon" onClick={handleSearch}>
-                      <IoMdSearch />
-                    </div>
+
+                    <IoMdSearch
+                      className="search-icon"
+                      onClick={handleSearch}
+                    />
                   </div>
                   <div className="sort-side">
                     {" "}
@@ -217,7 +223,10 @@ const Posts = () => {
                     >
                       <AiFillLike className="like-icon" /> {post.reaction}
                     </div>
-                    <div style={{ fontFamily: "Playwrite CU" }}>
+                    <div
+                      style={{ fontFamily: "Playwrite CU" }}
+                      onClick={() => handleLink(post.username)}
+                    >
                       {post.username}
                     </div>
                   </div>
