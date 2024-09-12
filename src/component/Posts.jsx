@@ -4,6 +4,9 @@ import { API_URL } from "../config";
 import Loader from "./Loader";
 import { AiFillLike } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdSearch } from "react-icons/io";
+import { ImHappy2, ImSad2, ImAngry2 } from "react-icons/im";
+import { FaSurprise } from "react-icons/fa";
+import { BsEmojiSunglassesFill, BsEmojiHeartEyesFill } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
@@ -18,7 +21,6 @@ const Posts = () => {
   const [inputSearchPost, setInputSearchPost] = useState("");
   const [searchPost, setSearchPost] = useState("");
   const navigate = useNavigate();
-  const user = localStorage.getItem("username");
 
   useLayoutEffect(() => {
     const fetchPosts = async () => {
@@ -125,14 +127,6 @@ const Posts = () => {
     }
   };
 
-  const handlePostSection = () => {
-    if (localStorage.getItem("username")) {
-      navigate("/postform");
-    } else {
-      navigate("/signin");
-    }
-  };
-
   const handleShowMore = () => {
     setPage((prev) => prev + 1);
   };
@@ -146,6 +140,52 @@ const Posts = () => {
     navigate("/userposts", { state: { username: username } });
   };
 
+  const handleEmote = (type) => {
+    if (type === "Happy") {
+      return (
+        <ImHappy2
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="#ffd60a"
+        />
+      );
+    } else if (type === "Sad") {
+      return (
+        <ImSad2
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="#4cc9f0"
+        />
+      );
+    } else if (type === "Angry") {
+      return (
+        <ImAngry2
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="red"
+        />
+      );
+    } else if (type === "Love") {
+      return (
+        <BsEmojiHeartEyesFill
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="rgb(255, 152, 170)"
+        />
+      );
+    } else if (type === "Surprised") {
+      return (
+        <FaSurprise
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="#5fcf8e"
+        />
+      );
+    } else if (type === "Relaxed") {
+      return (
+        <BsEmojiSunglassesFill
+          style={{ backgroundColor: "black", borderRadius: "50%" }}
+          color="#ffd60a"
+        />
+      );
+    }
+  };
+
   return (
     <div className="main-content">
       {error ? (
@@ -157,14 +197,7 @@ const Posts = () => {
             <Loader />
           ) : (
             <>
-              <div className="post">
-                <div className="whatsonyourmind" onClick={handlePostSection}>
-                  {user
-                    ? `What's on your mind, ${user}`
-                    : "Please Sign In to Post."}
-                </div>
-              </div>
-              <div className="post">
+              <div style={{ paddingTop: "10px" }}>
                 <div className="search-sort-container">
                   <div className="search-side">
                     <input
@@ -198,9 +231,12 @@ const Posts = () => {
                 </div>
               </div>
               {posts.map((post, index) => (
-                <div className={`post ${post.type}`} key={index}>
+                <div className={`post`} key={index}>
                   <div className="post-title">
-                    <div>{post.title}</div> <div>{post.type}</div>
+                    <div>{post.title}</div>{" "}
+                    <div className="emoteContainer">
+                      {handleEmote(post.type)}
+                    </div>
                   </div>
 
                   <div className="post-date">
@@ -224,7 +260,7 @@ const Posts = () => {
                       <AiFillLike className="like-icon" /> {post.reaction}
                     </div>
                     <div
-                      style={{ fontFamily: "Playwrite CU" }}
+                      style={{ fontFamily: "Playwrite CU", cursor: "pointer" }}
                       onClick={() => handleLink(post.username)}
                     >
                       {post.username}
@@ -246,7 +282,7 @@ const Posts = () => {
                         </div>
                       ) : (
                         <div
-                          className="post show-more"
+                          className="show-more"
                           onClick={() => handleShowMore()}
                         >
                           <div className="post-title">{"See More >"}</div>

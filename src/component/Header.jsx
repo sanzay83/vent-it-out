@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { IoSunny } from "react-icons/io5";
-import { MdNightsStay } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { MdNightsStay } from "react-icons/md";
+import { IoSunny } from "react-icons/io5";
 
 const Header = ({ isDark, setIsDark }) => {
   const [showMenu, setShowMenu] = useState(false);
-
   const location = useNavigate();
 
   const handleLink = (link) => {
@@ -13,15 +12,7 @@ const Header = ({ isDark, setIsDark }) => {
     location("/" + link);
   };
 
-  const handleSignOut = () => {
-    localStorage.removeItem("username");
-    localStorage.removeItem("token");
-    setShowMenu(!showMenu);
-    location("/");
-  };
-
   const handleIsDark = () => {
-    setShowMenu(!showMenu);
     const theme = localStorage.getItem("theme");
     if (!theme || theme === "light") {
       localStorage.setItem("theme", "dark");
@@ -32,65 +23,18 @@ const Header = ({ isDark, setIsDark }) => {
     }
   };
 
+  const handleSignOut = () => {
+    localStorage.removeItem("username");
+    localStorage.removeItem("token");
+    setShowMenu(!showMenu);
+    location("/");
+  };
+
   return (
     <>
       <div className="header">
         <div className="header-title" onClick={() => handleLink("")}>
           Vent It Out
-        </div>
-        <div className="dark-button-container">
-          <div
-            className={`dark-mode-button `}
-            onClick={() => {
-              handleIsDark();
-            }}
-          >
-            {isDark ? (
-              <div className="on">
-                <MdNightsStay size={"1.5rem"} color="white" />
-              </div>
-            ) : (
-              <div className="off">
-                <IoSunny size={"1.5rem"} color="yellow" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Nav Bar */}
-
-        <div className="nav-bar nav-hide">
-          <div className="nav-item" onClick={() => handleLink("")}>
-            Home
-          </div>
-          {localStorage.getItem("token") ? (
-            <>
-              <div className="nav-item" onClick={() => handleLink("myposts")}>
-                MyPosts
-              </div>
-              <div className="nav-item" onClick={() => handleLink("chat")}>
-                Chat
-              </div>{" "}
-            </>
-          ) : (
-            ""
-          )}
-          <div className="nav-item" onClick={() => handleLink("about")}>
-            About
-          </div>
-        </div>
-        <div className="nav-bar nav-bar-end">
-          {localStorage.getItem("token") ? (
-            <>
-              <div className="nav-item" onClick={() => handleSignOut()}>
-                SignOut
-              </div>
-            </>
-          ) : (
-            <div className="nav-item" onClick={() => handleLink("signin")}>
-              SignIn
-            </div>
-          )}
         </div>
       </div>
 
@@ -116,6 +60,33 @@ const Header = ({ isDark, setIsDark }) => {
         <div className="menu-item" onClick={() => handleLink("about")}>
           About
         </div>
+      </div>
+
+      <div className="aside aside-right">
+        <div
+          className="menu-item"
+          onClick={() => {
+            handleIsDark();
+          }}
+        >
+          Mode:{" "}
+          {isDark ? (
+            <MdNightsStay size={"1.5rem"} color="white" />
+          ) : (
+            <IoSunny size={"1.5rem"} color="yellow" />
+          )}
+        </div>
+        {localStorage.getItem("token") ? (
+          <>
+            <div className="menu-item" onClick={() => handleSignOut()}>
+              SignOut
+            </div>
+          </>
+        ) : (
+          <div className="menu-item" onClick={() => handleLink("signin")}>
+            SignIn
+          </div>
+        )}
       </div>
     </>
   );

@@ -11,6 +11,7 @@ import MyPosts from "./MyPosts";
 import Chat from "./Chat";
 import SplashScreen from "./SplashScreen";
 import UserPosts from "./UserPosts";
+import Footer from "./Footer";
 
 const App = () => {
   const [isDark, setIsDark] = useState(false);
@@ -29,8 +30,9 @@ const App = () => {
       {!isSplash ? (
         <SplashScreen setIsSplash={setIsSplash} />
       ) : (
-        <div className={`App ${localStorage.getItem("theme") || "light"}`}>
+        <div className={`App ${localStorage.getItem("theme") || "dark"}`}>
           <Header isDark={isDark} setIsDark={setIsDark} />
+
           <Routes>
             <Route
               path="/"
@@ -48,6 +50,7 @@ const App = () => {
             <Route path="/userposts" element={<UserPosts />} />
             <Route path="/chat" element={<Chat />} />
           </Routes>
+          <Footer isDark={isDark} setIsDark={setIsDark} />
         </div>
       )}
     </Router>

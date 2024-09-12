@@ -77,7 +77,7 @@ const MyPosts = () => {
             <>
               {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
-                <div className={`post ${post.type}`} key={index}>
+                <div className={`post`} key={index}>
                   <div className="post-title">
                     <div>{post.title}</div>
                     {post.type}
@@ -101,6 +101,7 @@ const MyPosts = () => {
                   </div>
                 </div>
               ))}
+              <div style={{ padding: "50px" }}></div>
             </>
           )}
         </>

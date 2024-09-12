@@ -1,12 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { API_URL } from "../config";
 import io from "socket.io-client";
+import { useNavigate } from "react-router-dom";
 const socket = io(`${API_URL}`);
+
 const Chat = () => {
   const username = localStorage.getItem("username");
   const [userCount, setUserCount] = useState(0);
   const [message, setMessage] = useState("");
   const chatEndRef = useRef(null);
+  const navigate = useNavigate();
   const [messages, setMessages] = useState([
     {
       username: "Admin",
@@ -40,6 +43,12 @@ const Chat = () => {
     setMessage("");
   };
 
+  const handleLink = (username) => {
+    if (username !== "Admin") {
+      navigate("/userposts", { state: { username: username } });
+    }
+  };
+
   return (
     <div
       className="main-content only-for-chat"
@@ -55,17 +64,22 @@ const Chat = () => {
                 <div className="chat-user-name">{username}</div>
                 <div
                   className="chat-user-msg "
-                  style={{ backgroundColor: "#264653" }}
+                  style={{ backgroundColor: "#003108" }}
                 >
                   {msg.message}
                 </div>
               </div>
             ) : (
               <div className="user-message-container chat-left">
-                <div className="chat-user-name">{msg.username}</div>
+                <div
+                  className="chat-user-name"
+                  onClick={() => handleLink(msg.username)}
+                >
+                  {msg.username}
+                </div>
                 <div
                   className="chat-user-msg"
-                  style={{ backgroundColor: "#162730" }}
+                  style={{ backgroundColor: "#3c096c" }}
                 >
                   {msg.message}
                 </div>

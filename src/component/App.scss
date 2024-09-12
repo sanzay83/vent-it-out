@@ -5,6 +5,7 @@
 @import "./Chat.scss";
 @import "./SplashScreen.scss";
 @import "./PostForm.scss";
+@import "./Footer.scss";
 @import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Alfa+Slab+One&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Playwrite+CU:wght@100..400&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 $c1: #e9c46a;
 $c2: #2a9d8f;
@@ -13,8 +14,10 @@ $c4: #f4a261;
 $c5: #e76f51;
 $c6: #162730;
 $black-selected: rgb(43, 43, 43);
-$white-selected: rgb(221, 221, 221);
-
+$white-selected: rgb(235, 235, 235);
+.colorcheck {
+  color: orange;
+}
 .dark {
   color: $white-selected;
   background-color: $black-selected;
@@ -39,7 +42,7 @@ $white-selected: rgb(221, 221, 221);
 .main-content {
   grid-column: 1 / span 5;
   grid-row: 2;
-  padding: 0 20px;
+  padding: 0 30px;
   min-width: 250px;
   min-height: 88vh;
 }

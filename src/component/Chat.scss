@@ -12,6 +12,7 @@
 .messages-container {
   height: 60vh;
   overflow: auto;
+  padding: 10px;
 }
 
 .user-message-container {
@@ -19,6 +20,7 @@
   flex-direction: column;
   margin-top: 1rem;
 }
+
 .chat-left {
   align-items: flex-start;
 }
@@ -49,21 +51,22 @@
 .send-message-container {
   display: flex;
   flex-direction: row;
+  margin-top: 10px;
 }
 
 .send-message-container input {
-  height: 2.5rem;
+  height: 48px;
   border-radius: 15px 0 0 15px;
   border: 1px solid rgb(255, 255, 255);
 }
 
 .send-message-container button {
-  height: 2.5rem;
+  height: 48px;
   width: 20%;
   border-radius: 0px 15px 15px 0px;
   border: 1px solid rgb(255, 255, 255);
-  background-color: #264653;
-  color: #e9c46a;
+  background-color: #003108;
+  color: white;
   font-weight: bold;
   font-size: 1rem;
 }
