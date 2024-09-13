@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdNightsStay } from "react-icons/md";
 import { IoSunny } from "react-icons/io5";
+import logo from "../assets/viologo.png";
 
 const Header = ({ isDark, setIsDark }) => {
   const [showMenu, setShowMenu] = useState(false);
@@ -34,7 +35,7 @@ const Header = ({ isDark, setIsDark }) => {
     <>
       <div className="header">
         <div className="header-title" onClick={() => handleLink("")}>
-          Vent It Out
+          <img src={logo} height="60px" width="60px" alt="logo" /> Vent It Out
         </div>
       </div>
 

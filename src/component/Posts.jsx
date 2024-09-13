@@ -153,7 +153,7 @@ const Posts = () => {
             <Loader />
           ) : (
             <>
-              <div style={{ paddingTop: "10px" }}>
+              <div style={{ paddingTop: "20px" }}>
                 <div className="search-sort-container">
                   <div className="search-side">
                     <input
