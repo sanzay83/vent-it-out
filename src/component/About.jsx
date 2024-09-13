@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="main-content">
+    <div style={{ padding: "0 40px" }} className="main-content">
       <p>
         <b>
           <i>"Vent It Out" </i>

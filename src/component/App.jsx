@@ -1,5 +1,5 @@
 import Header from "./Header";
-import "./App.scss";
+import "../styles/App.scss";
 import Posts from "./Posts";
 import { Routes, Route, BrowserRouter as Router } from "react-router-dom";
 import SignIn from "./SignIn";

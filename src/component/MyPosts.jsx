@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
+import Emoji from "./Emoji";
 
 const MyPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -64,6 +65,9 @@ const MyPosts = () => {
       console.log(err);
     }
   };
+  const handleEmote = (type) => {
+    return <Emoji type={type} />;
+  };
 
   return (
     <div className="main-content">
@@ -80,7 +84,9 @@ const MyPosts = () => {
                 <div className={`post`} key={index}>
                   <div className="post-title">
                     <div>{post.title}</div>
-                    {post.type}
+                    <div className="emoteContainer">
+                      {handleEmote(post.type)}
+                    </div>
                   </div>
                   <div className="post-date">
                     {adjustDateTime(post.datetime)}

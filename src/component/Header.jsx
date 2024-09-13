@@ -73,7 +73,7 @@ const Header = ({ isDark, setIsDark }) => {
           {isDark ? (
             <MdNightsStay size={"1.5rem"} color="white" />
           ) : (
-            <IoSunny size={"1.5rem"} color="yellow" />
+            <IoSunny size={"1.5rem"} color="#ce8002" />
           )}
         </div>
         {localStorage.getItem("token") ? (
