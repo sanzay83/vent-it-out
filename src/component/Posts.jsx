@@ -125,9 +125,16 @@ const Posts = () => {
     }
   };
 
-  const handleShowMore = () => {
-    setPage((prev) => prev + 1);
-  };
+  window.addEventListener("scroll", () => {
+    if (
+      !noMoreData &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight
+    ) {
+      setTimeout(() => {
+        setPage((prev) => prev + 1);
+      }, 2000);
+    }
+  });
 
   const handleType = (itemType) => {
     setType(itemType);
@@ -233,16 +240,11 @@ const Posts = () => {
                   ) : (
                     <>
                       {noMoreData ? (
-                        <div className="post">
+                        <div className="show-more">
                           <div className="post-title">No more data to load</div>
                         </div>
                       ) : (
-                        <div
-                          className="show-more"
-                          onClick={() => handleShowMore()}
-                        >
-                          <div className="post-title">{"See More >"}</div>
-                        </div>
+                        ""
                       )}
                     </>
                   )}
