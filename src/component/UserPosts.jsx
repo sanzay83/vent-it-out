@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
 import { useLocation } from "react-router-dom";
+import Emoji from "./Emoji";
 
 const UserPosts = () => {
   const [posts, setPosts] = useState([]);
@@ -51,6 +52,10 @@ const UserPosts = () => {
     return `${formattedDate} ${formattedTime}`;
   };
 
+  const handleEmote = (type) => {
+    return <Emoji type={type} />;
+  };
+
   return (
     <div className="main-content">
       {error ? (
@@ -61,12 +66,15 @@ const UserPosts = () => {
             <Loader />
           ) : (
             <>
+              <div style={{ fontSize: "30px" }}>{`Posts by  ${username}`}</div>
               {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
-                <div className={`post ${post.type}`} key={index}>
+                <div className={`post `} key={index}>
                   <div className="post-title">
                     <div>{post.title}</div>
-                    {post.type}
+                    <div className="emoteContainer">
+                      {handleEmote(post.type)}
+                    </div>
                   </div>
                   <div className="post-date">
                     {adjustDateTime(post.datetime)}
@@ -81,6 +89,7 @@ const UserPosts = () => {
                   </div>
                 </div>
               ))}
+              <div style={{ padding: "50px" }}></div>
             </>
           )}
         </>

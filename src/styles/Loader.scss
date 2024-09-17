@@ -15,16 +15,16 @@
 @keyframes spin {
   0% {
     transform: rotate(0deg);
-    box-shadow: 0 -1px 0 rgb(0, 0, 0);
+    box-shadow: 0 3px 0;
   }
 
   50% {
     transform: rotate(180deg);
-    box-shadow: 0 -1px 0 rgb(0, 0, 0);
+    box-shadow: 0 3px 0;
   }
 
   100% {
     transform: rotate(360deg);
-    box-shadow: 0 -1px 0 rgb(0, 0, 0);
+    box-shadow: 0 3px 0;
   }
 }

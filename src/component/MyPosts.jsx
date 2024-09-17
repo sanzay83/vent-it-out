@@ -65,6 +65,7 @@ const MyPosts = () => {
       console.log(err);
     }
   };
+
   const handleEmote = (type) => {
     return <Emoji type={type} />;
   };
@@ -79,6 +80,7 @@ const MyPosts = () => {
             <Loader />
           ) : (
             <>
+              <div style={{ fontSize: "30px" }}>{`Your Posts`}</div>
               {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
                 <div className={`post`} key={index}>
