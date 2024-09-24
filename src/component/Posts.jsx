@@ -34,16 +34,16 @@ const Posts = () => {
         );
         const posts = response.data;
 
-        if (type !== "All") {
-          setPosts(posts);
-        } else {
-          setPosts((prev) => [...prev, ...posts]);
-        }
-
         if (posts.length < 10) {
           setNoMoreData(true);
         } else {
           setNoMoreData(false);
+        }
+
+        if (type !== "All") {
+          setPosts(posts);
+        } else {
+          setPosts((prev) => [...prev, ...posts]);
         }
 
         setLoading(false);
@@ -126,13 +126,12 @@ const Posts = () => {
   };
 
   window.addEventListener("scroll", () => {
-    if (
-      !noMoreData &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight
-    ) {
-      setTimeout(() => {
-        setPage((prev) => prev + 1);
-      }, 2000);
+    if (!noMoreData) {
+      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+        setTimeout(() => {
+          setPage((prev) => prev + 1);
+        }, 2000);
+      }
     }
   });
 
