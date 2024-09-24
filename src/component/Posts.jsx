@@ -22,39 +22,41 @@ const Posts = () => {
 
   useLayoutEffect(() => {
     const fetchPosts = async () => {
-      try {
-        setMoreLoading(true);
-        const response = await axios.get(
-          `${API_URL}/vio/posts?page=${page}&limit=${"10"}&postType=${type}`,
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
+      if (!noMoreData) {
+        try {
+          setMoreLoading(true);
+          const response = await axios.get(
+            `${API_URL}/vio/posts?page=${page}&limit=${"10"}&postType=${type}`,
+            {
+              headers: {
+                "Access-Control-Allow-Origin": "*",
+              },
+            }
+          );
+          const posts = response.data;
+
+          if (posts.length < 10) {
+            setNoMoreData(true);
+          } else {
+            setNoMoreData(false);
           }
-        );
-        const posts = response.data;
 
-        if (posts.length < 10) {
-          setNoMoreData(true);
-        } else {
-          setNoMoreData(false);
+          if (type !== "All") {
+            setPosts(posts);
+          } else {
+            setPosts((prev) => [...prev, ...posts]);
+          }
+
+          setLoading(false);
+          setMoreLoading(false);
+        } catch (err) {
+          setError(err.message);
+          setLoading(false);
         }
-
-        if (type !== "All") {
-          setPosts(posts);
-        } else {
-          setPosts((prev) => [...prev, ...posts]);
-        }
-
-        setLoading(false);
-        setMoreLoading(false);
-      } catch (err) {
-        setError(err.message);
-        setLoading(false);
       }
     };
     fetchPosts();
-  }, [page, type]);
+  }, [page, type, noMoreData]);
 
   useEffect(() => {
     const fetchSearchPosts = async () => {
@@ -126,12 +128,10 @@ const Posts = () => {
   };
 
   window.addEventListener("scroll", () => {
-    if (!noMoreData) {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
-        setTimeout(() => {
-          setPage((prev) => prev + 1);
-        }, 2000);
-      }
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      setTimeout(() => {
+        setPage((prev) => prev + 1);
+      }, 3000);
     }
   });
 
