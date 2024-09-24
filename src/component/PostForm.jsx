@@ -68,10 +68,11 @@ const PostForm = () => {
           placeholder="Message"
         />
 
-        {buttonType.map((btn) => (
+        {buttonType.map((btn, index) => (
           <button
             className={`type-button ${btn} ${type === btn ? "active" : ""}`}
             onClick={() => handleButton(btn)}
+            key={index}
           >
             {btn}
           </button>

@@ -136,6 +136,7 @@ const Posts = () => {
   });
 
   const handleType = (itemType) => {
+    setNoMoreData(false);
     setType(itemType);
     setPage(0);
   };

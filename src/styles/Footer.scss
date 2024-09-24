@@ -8,7 +8,7 @@
   align-items: center;
   text-align: center;
   font-size: 48px;
-  border-radius: 10px 10px 0 0;
+  border-radius: 0;
 }
 
 .lightthemefooter {
@@ -24,6 +24,13 @@
 .footer .item1 {
   grid-column: 1 / span 1;
   grid-row: 1;
+}
+.footer .item1:hover,
+.item2:hover,
+.item3:hover,
+.item4:hover,
+.item5:hover {
+  color: #7302dd;
 }
 
 .footer .item2 {
