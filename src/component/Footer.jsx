@@ -10,6 +10,7 @@ import {
   IoInformationCircleOutline,
   IoLogOutOutline,
   IoLogInOutline,
+  IoPersonCircleOutline,
 } from "react-icons/io5";
 import { MdNightsStay } from "react-icons/md";
 import { BsPostcard, BsPostcardFill } from "react-icons/bs";
@@ -75,10 +76,19 @@ function Footer({ isDark, setIsDark }) {
             About
           </button>
           {token ? (
-            <button className="tabbar-sheet-item" onClick={handleSignOut}>
-              <IoLogOutOutline />
-              Sign out
-            </button>
+            <>
+              <button
+                className="tabbar-sheet-item"
+                onClick={() => handleLink("account")}
+              >
+                <IoPersonCircleOutline />
+                Manage account
+              </button>
+              <button className="tabbar-sheet-item" onClick={handleSignOut}>
+                <IoLogOutOutline />
+                Sign out
+              </button>
+            </>
           ) : (
             <button
               className="tabbar-sheet-item"

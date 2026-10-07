@@ -21,6 +21,15 @@ accounts, and Realtime for the global chat. The old custom backend
 3. You should see "Success. No rows returned" — tables, security rules and the
    chat realtime feed are all created.
 
+## 2b. Run new migrations (when the app adds features)
+
+When a new file appears in `supabase/migrations/`, run it once in the
+**SQL editor → New query** (paste & Run). The initial `schema.sql` already
+includes everything up to the current version, so fresh setups skip this.
+
+- `002_delete_account.sql` — the `delete_own_account()` function behind the
+  Manage account → Delete account option.
+
 ## 3. Turn off email confirmation (important)
 
 By default Supabase makes new users click a confirmation link before they can

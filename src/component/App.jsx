@@ -9,6 +9,7 @@ import Register from "./Register";
 import { useEffect, useState } from "react";
 import MyPosts from "./MyPosts";
 import Chat from "./Chat";
+import ManageAccount from "./ManageAccount";
 import SplashScreen from "./SplashScreen";
 import UserPosts from "./UserPosts";
 import Footer from "./Footer";
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="/about" element={<About />} />
             <Route path="/postform" element={<PostForm />} />
             <Route path="/myposts" element={<MyPosts />} />
+            <Route path="/account" element={<ManageAccount />} />
             <Route path="/userposts" element={<UserPosts />} />
             <Route path="/chat" element={<Chat />} />
           </Routes>

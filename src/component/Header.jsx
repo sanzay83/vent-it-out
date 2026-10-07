@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdNightsStay } from "react-icons/md";
-import { IoSunny, IoAdd } from "react-icons/io5";
+import { IoSunny, IoAdd, IoPersonCircleOutline, IoLogOutOutline } from "react-icons/io5";
 import { supabase } from "../supabaseClient";
 import logo from "../assets/viologo.png";
 
@@ -9,6 +9,7 @@ const Header = ({ isDark, setIsDark }) => {
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
   const username = localStorage.getItem("username");
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLink = (link) => {
     navigate("/" + link);
@@ -26,10 +27,16 @@ const Header = ({ isDark, setIsDark }) => {
   };
 
   const handleSignOut = async () => {
+    setMenuOpen(false);
     await supabase.auth.signOut();
     localStorage.removeItem("username");
     localStorage.removeItem("token");
     navigate("/");
+  };
+
+  const handleAccount = () => {
+    setMenuOpen(false);
+    navigate("/account");
   };
 
   return (
@@ -67,9 +74,36 @@ const Header = ({ isDark, setIsDark }) => {
             <IoAdd /> New vent
           </button>
           {token && username ? (
-            <div className="header-user" title={username}>
-              <span className="avatar-dot">{username.charAt(0)}</span>
-              <span className="uname">{username}</span>
+            <div className="header-user-wrap">
+              <div
+                className="header-user clickable"
+                title={username}
+                onClick={() => setMenuOpen((v) => !v)}
+              >
+                <span className="avatar-dot">{username.charAt(0)}</span>
+                <span className="uname">{username}</span>
+              </div>
+              {menuOpen ? (
+                <>
+                  <div
+                    className="user-menu-scrim"
+                    onClick={() => setMenuOpen(false)}
+                  />
+                  <div className="user-menu">
+                    <button className="user-menu-item" onClick={handleAccount}>
+                      <IoPersonCircleOutline />
+                      Manage account
+                    </button>
+                    <button
+                      className="user-menu-item danger"
+                      onClick={handleSignOut}
+                    >
+                      <IoLogOutOutline />
+                      Sign out
+                    </button>
+                  </div>
+                </>
+              ) : null}
             </div>
           ) : null}
           <button
@@ -80,18 +114,14 @@ const Header = ({ isDark, setIsDark }) => {
           >
             {isDark ? <MdNightsStay size="1.15rem" /> : <IoSunny size="1.15rem" />}
           </button>
-          {token ? (
-            <button className="header-auth-btn" onClick={handleSignOut}>
-              Sign out
-            </button>
-          ) : (
+          {!token ? (
             <button
               className="header-auth-btn solid"
               onClick={() => handleLink("signin")}
             >
               Sign in
             </button>
-          )}
+          ) : null}
         </div>
       </div>
     </header>
