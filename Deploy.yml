@@ -1,0 +1,46 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create API config
+        # src/config.js is gitignored (holds the backend URL), so the
+        # workflow generates it at build time. Update the URL if the
+        # backend ever moves.
+        run: echo 'export const API_URL = "https://vio.aapugu.com";' > src/config.js
+
+      - name: Build
+        run: |
+          npm run build
+          cp build/index.html build/404.html
+        env:
+          NODE_OPTIONS: --openssl-legacy-provider
+          CI: false
+
+      - name: Deploy to gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: build
+          single-commit: true
