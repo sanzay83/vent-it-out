@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../config";
+import Emoji from "./Emoji";
 
 const PostForm = () => {
   const [username, setUsername] = useState("");
@@ -50,37 +51,63 @@ const PostForm = () => {
 
   return (
     <div className="main-content">
-      <div className="posting-box">
-        <div className="title">Post</div>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
-        />
+      <div className="composer-card">
+        <div className="title">Let it out</div>
+        <p className="composer-sub">
+          Nobody knows it's you. Say what you really feel — pick the mood that
+          fits.
+        </p>
 
-        <textarea
-          type="text"
-          id="message"
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Message"
-        />
+        <div className="composer-field">
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            id="title"
+            className="field-input"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Give your vent a headline..."
+            maxLength={120}
+          />
+        </div>
 
-        {buttonType.map((btn, index) => (
-          <button
-            className={`type-button ${btn} ${type === btn ? "active" : ""}`}
-            onClick={() => handleButton(btn)}
-            key={index}
-          >
-            {btn}
-          </button>
-        ))}
-        <button type="submit" onClick={handlePost}>
-          Add Post
+        <div className="composer-field">
+          <label htmlFor="message">What's on your mind?</label>
+          <textarea
+            id="message"
+            className="field-textarea"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Pour it all out. No judgment here."
+          />
+        </div>
+
+        <div className="composer-field">
+          <label>How are you feeling?</label>
+          <div className="mood-grid">
+            {buttonType.map((btn, index) => (
+              <button
+                type="button"
+                data-mood={btn}
+                className={`mood-chip-btn ${type === btn ? "active" : ""}`}
+                onClick={() => handleButton(btn)}
+                key={index}
+              >
+                <Emoji type={btn} />
+                {btn}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          className="btn-primary composer-submit"
+          onClick={handlePost}
+        >
+          Release it
         </button>
-        {error ? `${error}` : ""}
+        {error ? <div className="composer-error">{error}</div> : ""}
       </div>
     </div>
   );

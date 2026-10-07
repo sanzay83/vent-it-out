@@ -160,14 +160,23 @@ const Posts = () => {
             <Loader />
           ) : (
             <>
-              <div style={{ paddingTop: "20px" }}>
+              <div className="feed-hero">
+                <h1>
+                  Let it out. <span className="gradient-word">No judgment.</span>
+                </h1>
+                <p>
+                  A safe, anonymous space to share what's on your mind — the
+                  good, the heavy, and everything in between.
+                </p>
+              </div>
+              <div>
                 <div className="search-sort-container">
                   <div className="search-side">
                     <input
                       type="text"
                       value={inputSearchPost}
                       onChange={(e) => setInputSearchPost(e.target.value)}
-                      placeholder="Search"
+                      placeholder="Search vents..."
                       onKeyDown={(e) => {
                         if (e.key === "Enter") handleSearch();
                       }}
@@ -178,39 +187,55 @@ const Posts = () => {
                       onClick={handleSearch}
                     />
                   </div>
-                  <div className="sort-side">
-                    {" "}
-                    {type} <IoMdArrowDropdown />
+                  <div className="sort-side" tabIndex={0}>
+                    <span className="sort-label">{type}</span>{" "}
+                    <IoMdArrowDropdown />
                     <div className="dropdown-item">
-                      <div onClick={() => handleType("All")}>All</div>
-                      <div onClick={() => handleType("Happy")}>Happy</div>
-                      <div onClick={() => handleType("Sad")}>Sad</div>
-                      <div onClick={() => handleType("Angry")}>Angry</div>
-                      <div onClick={() => handleType("Love")}>Love</div>
-                      <div onClick={() => handleType("Surprise")}>Surprise</div>
-                      <div onClick={() => handleType("Relaxed")}>Relaxed</div>
+                      <div onClick={() => handleType("All")}>All moods</div>
+                      <div onClick={() => handleType("Happy")}>
+                        <Emoji type="Happy" /> Happy
+                      </div>
+                      <div onClick={() => handleType("Sad")}>
+                        <Emoji type="Sad" /> Sad
+                      </div>
+                      <div onClick={() => handleType("Angry")}>
+                        <Emoji type="Angry" /> Angry
+                      </div>
+                      <div onClick={() => handleType("Love")}>
+                        <Emoji type="Love" /> Love
+                      </div>
+                      <div onClick={() => handleType("Surprise")}>
+                        <Emoji type="Surprise" /> Surprise
+                      </div>
+                      <div onClick={() => handleType("Relaxed")}>
+                        <Emoji type="Relaxed" /> Relaxed
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               {posts.map((post, index) => (
-                <div className={`post`} key={index}>
-                  <div className="post-title">
-                    <div>{post.title}</div>{" "}
-                    <div className="emoteContainer">
+                <article
+                  className={`post mood-${post.type}`}
+                  key={post.postid || index}
+                  style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
+                >
+                  <div className="post-top">
+                    <span className="mood-chip">
                       {handleEmote(post.type)}
-                    </div>
+                      {post.type}
+                    </span>
+                    <span className="post-date">
+                      {adjustDateTime(post.datetime)}
+                    </span>
                   </div>
-
-                  <div className="post-date">
-                    {adjustDateTime(post.datetime)}
-                  </div>
-                  <div style={{ padding: "5px 0" }} className="post-message">
-                    {post.message}
-                  </div>
+                  <h2 className="post-title">{post.title}</h2>
+                  <div className="post-message">{post.message}</div>
                   <div className="reaction-signature">
-                    <div
-                      className="post-reaction"
+                    <button
+                      className={`post-reaction ${
+                        liked.includes(post.postid) ? "is-liked" : ""
+                      }`}
                       onClick={() =>
                         handleReaction(
                           post.postid,
@@ -221,15 +246,15 @@ const Posts = () => {
                       }
                     >
                       <AiFillLike className="like-icon" /> {post.reaction}
-                    </div>
+                    </button>
                     <div
-                      style={{ fontFamily: "Playwrite CU", cursor: "pointer" }}
+                      className="post-signature"
                       onClick={() => handleLink(post.username)}
                     >
                       {post.username}
                     </div>
                   </div>
-                </div>
+                </article>
               ))}
               {moreLoading ? (
                 <Loader />
@@ -241,7 +266,7 @@ const Posts = () => {
                     <>
                       {noMoreData ? (
                         <div className="show-more">
-                          <div className="post-title">No more data to load</div>
+                          You've reached the end — breathe easy.
                         </div>
                       ) : (
                         ""

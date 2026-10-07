@@ -80,34 +80,38 @@ const MyPosts = () => {
             <Loader />
           ) : (
             <>
-              <div style={{ fontSize: "30px" }}>{`Your Posts`}</div>
+              <h1 className="page-title">Your Posts</h1>
+              <p className="page-subtitle">
+                Everything you've let out into the world.
+              </p>
               {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
-                <div className={`post`} key={index}>
-                  <div className="post-title">
-                    <div>{post.title}</div>
-                    <div className="emoteContainer">
+                <article
+                  className={`post mood-${post.type}`}
+                  key={post.postid || index}
+                  style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
+                >
+                  <div className="post-top">
+                    <span className="mood-chip">
                       {handleEmote(post.type)}
-                    </div>
+                      {post.type}
+                    </span>
+                    <span className="post-date">
+                      {adjustDateTime(post.datetime)}
+                    </span>
                   </div>
-                  <div className="post-date">
-                    {adjustDateTime(post.datetime)}
-                  </div>
-                  <div style={{ padding: "5px 0" }} className="post-message">
-                    {post.message}
-                  </div>
+                  <h2 className="post-title">{post.title}</h2>
+                  <div className="post-message">{post.message}</div>
                   <div className="reaction-signature">
-                    <div
-                      className="post-reaction"
+                    <button
+                      className="post-reaction is-danger"
                       onClick={() => handleDelete(post.postid)}
                     >
                       Delete
-                    </div>
-                    <div style={{ fontFamily: "Playwrite CU" }}>
-                      {post.username}
-                    </div>
+                    </button>
+                    <div className="post-signature">{post.username}</div>
                   </div>
-                </div>
+                </article>
               ))}
               <div style={{ padding: "50px" }}></div>
             </>

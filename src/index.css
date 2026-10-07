@@ -1,14 +1,93 @@
+@import url("https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Playwrite+CU:wght@100..400&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  margin-top: 80px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans",
+    "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* ---------- Theme tokens ---------- */
+.App.dark {
+  --bg: #0d1117;
+  --bg-soft: #131922;
+  --surface: #171e29;
+  --surface-2: #1f2837;
+  --surface-3: #263145;
+  --border: rgba(148, 163, 184, 0.14);
+  --border-strong: rgba(148, 163, 184, 0.28);
+  --text: #e9eef6;
+  --text-dim: #9aa7bd;
+  --text-faint: #67748a;
+  --accent: #5eead4;
+  --accent-2: #a78bfa;
+  --accent-ink: #04231d;
+  --accent-soft: rgba(94, 234, 212, 0.12);
+  --danger: #f87171;
+  --shadow: 0 14px 34px rgba(0, 0, 0, 0.42);
+  --card-shadow: 0 8px 24px rgba(0, 0, 0, 0.32);
+  --header-bg: rgba(13, 17, 23, 0.78);
+  --input-bg: #111722;
+  --aura-1: rgba(94, 234, 212, 0.07);
+  --aura-2: rgba(167, 139, 250, 0.09);
+  color-scheme: dark;
+}
+
+.App.light {
+  --bg: #f6f3ec;
+  --bg-soft: #efe9dc;
+  --surface: #fffdf8;
+  --surface-2: #f3eee3;
+  --surface-3: #e9e1d1;
+  --border: rgba(90, 75, 50, 0.14);
+  --border-strong: rgba(90, 75, 50, 0.3);
+  --text: #1e2532;
+  --text-dim: #5d6a82;
+  --text-faint: #8b95a9;
+  --accent: #0d9488;
+  --accent-2: #7c3aed;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(13, 148, 136, 0.1);
+  --danger: #dc2626;
+  --shadow: 0 14px 34px rgba(60, 50, 30, 0.14);
+  --card-shadow: 0 8px 24px rgba(60, 50, 30, 0.1);
+  --header-bg: rgba(246, 243, 236, 0.82);
+  --input-bg: #fbf8f1;
+  --aura-1: rgba(13, 148, 136, 0.08);
+  --aura-2: rgba(124, 58, 237, 0.08);
+  color-scheme: light;
+}
+
+.App {
+  min-height: 100dvh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.App a {
+  color: inherit;
+}
+
+button {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }

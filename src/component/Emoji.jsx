@@ -3,50 +3,35 @@ import { ImHappy2, ImSad2, ImAngry2 } from "react-icons/im";
 import { FaSurprise } from "react-icons/fa";
 import { BsEmojiSunglassesFill, BsEmojiHeartEyesFill } from "react-icons/bs";
 
+const moodColor = {
+  Happy: "#fbbf24",
+  Sad: "#60a5fa",
+  Angry: "#f87171",
+  Love: "#f472b6",
+  Surprise: "#c084fc",
+  Relaxed: "#34d399",
+};
+
+const moodIcon = {
+  Happy: ImHappy2,
+  Sad: ImSad2,
+  Angry: ImAngry2,
+  Love: BsEmojiHeartEyesFill,
+  Surprise: FaSurprise,
+  Relaxed: BsEmojiSunglassesFill,
+};
+
 function Emoji({ type }) {
-  if (type === "Happy") {
-    return (
-      <ImHappy2
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="#ffd60a"
-      />
-    );
-  } else if (type === "Sad") {
-    return (
-      <ImSad2
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="#4cc9f0"
-      />
-    );
-  } else if (type === "Angry") {
-    return (
-      <ImAngry2
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="red"
-      />
-    );
-  } else if (type === "Love") {
-    return (
-      <BsEmojiHeartEyesFill
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="rgb(255, 152, 170)"
-      />
-    );
-  } else if (type === "Surprise") {
-    return (
-      <FaSurprise
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="#ffd60a"
-      />
-    );
-  } else if (type === "Relaxed") {
-    return (
-      <BsEmojiSunglassesFill
-        style={{ backgroundColor: "black", borderRadius: "50%" }}
-        color="#ffd60a"
-      />
-    );
-  }
+  const Icon = moodIcon[type];
+  if (!Icon) return null;
+  return (
+    <span
+      className="mood-emoji"
+      style={{ display: "inline-flex", color: moodColor[type] }}
+    >
+      <Icon />
+    </span>
+  );
 }
 
 export default Emoji;

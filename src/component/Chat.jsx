@@ -83,12 +83,14 @@ const Chat = () => {
   };
 
   return (
-    <div
-      className="main-content only-for-chat"
-      style={{ behavior: "smooth", overflow: "auto" }}
-    >
-      <div className="chat-title">Global Chat</div>{" "}
-      <div style={{ color: "green" }}>{userCount} online</div>
+    <div className="main-content only-for-chat">
+      <div className="chat-head">
+        <h1 className="chat-title">Global Chat</h1>
+        <span className="chat-online">
+          <span className="dot" />
+          {userCount} online
+        </span>
+      </div>
       <div className="messages-container">
         {loading ? (
           "Loading Messages"
@@ -99,12 +101,7 @@ const Chat = () => {
                 {username === msg.username ? (
                   <div className="user-message-container chat-right">
                     <div className="chat-user-name">{username}</div>
-                    <div
-                      className="chat-user-msg "
-                      style={{ backgroundColor: "#003108" }}
-                    >
-                      {msg.message}
-                    </div>
+                    <div className="chat-user-msg">{msg.message}</div>
                   </div>
                 ) : (
                   <div className="user-message-container chat-left">
@@ -114,12 +111,7 @@ const Chat = () => {
                     >
                       {msg.username}
                     </div>
-                    <div
-                      className="chat-user-msg"
-                      style={{ backgroundColor: "#3c096c" }}
-                    >
-                      {msg.message}
-                    </div>
+                    <div className="chat-user-msg">{msg.message}</div>
                   </div>
                 )}
                 <div ref={chatEndRef} />
@@ -133,7 +125,7 @@ const Chat = () => {
           type="text"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          placeholder="Aa"
+          placeholder="Type a message..."
           onKeyDown={(e) => {
             if (e.key === "Enter") sendMessage();
           }}

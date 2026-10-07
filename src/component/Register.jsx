@@ -39,30 +39,37 @@ const Register = () => {
 
   return (
     <div className="main-content">
-      <div className="signin-box">
-        <form onSubmit={handleRegister}>
-          <div className="title">Register</div>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="Enter New Username"
-          />
+      <div className="auth-wrap">
+        <div className="signin-box">
+          <div className="title">Join the circle</div>
+          <p className="auth-sub">
+            Create an anonymous identity and start letting it out.
+          </p>
+          <form onSubmit={handleRegister}>
+            <input
+              type="text"
+              id="username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Choose a username"
+              autoComplete="username"
+            />
 
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            placeholder="Enter New Password"
-          />
-          <button type="submit">Register</button>
+            <input
+              type="password"
+              id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Choose a password (8+ characters)"
+              autoComplete="new-password"
+            />
+            <button type="submit">Create account</button>
+          </form>
           <div className="account-create" onClick={handleCreate}>
-            <b>{"< Go back"}</b>
+            Already have an account? <b>Sign in</b>
           </div>
-        </form>
-        {showMessage ? `${showMessage}` : ""}
+          {showMessage ? <div className="auth-message">{showMessage}</div> : ""}
+        </div>
       </div>
     </div>
   );

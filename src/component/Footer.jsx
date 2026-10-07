@@ -1,38 +1,36 @@
 import React, { useState } from "react";
 import {
   IoHome,
-  IoAddCircle,
+  IoHomeOutline,
+  IoAdd,
   IoChatbubbleEllipsesSharp,
-  IoSettingsSharp,
-  IoSunny,
+  IoChatbubbleEllipsesOutline,
+  IoMenu,
+  IoSunnyOutline,
+  IoInformationCircleOutline,
+  IoLogOutOutline,
+  IoLogInOutline,
 } from "react-icons/io5";
 import { MdNightsStay } from "react-icons/md";
-
-import { BsFillPostcardFill } from "react-icons/bs";
-import { useNavigate } from "react-router-dom";
+import { BsPostcard, BsPostcardFill } from "react-icons/bs";
+import { useNavigate, useLocation } from "react-router-dom";
 
 function Footer({ isDark, setIsDark }) {
-  const user = localStorage.getItem("username");
-  const location = useNavigate();
+  const token = localStorage.getItem("token");
+  const navigate = useNavigate();
+  const location = useLocation();
   const [showMenu, setShowMenu] = useState(false);
+  const path = location.pathname.replace(/\/$/, "") || "/";
+
+  const protectedRoutes = ["chat", "myposts", "postform"];
 
   const handleLink = (link) => {
-    if (
-      user === true &&
-      (link === "chat" || link === "myposts" || link === "postform")
-    ) {
-      location("/" + link);
-    } else if (
-      !user === true &&
-      (link === "chat" || link === "myposts" || link === "postform")
-    ) {
-      location("/signin");
+    if (!token && protectedRoutes.includes(link)) {
+      navigate("/signin");
     } else {
-      location("/" + link);
+      navigate("/" + link);
     }
-    if (showMenu) {
-      setShowMenu(!showMenu);
-    }
+    setShowMenu(false);
   };
 
   const handleIsDark = () => {
@@ -44,80 +42,94 @@ function Footer({ isDark, setIsDark }) {
       localStorage.setItem("theme", "light");
       setIsDark(false);
     }
+    setShowMenu(false);
   };
 
   const handleSignOut = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("token");
-    setShowMenu(!showMenu);
-    location("/");
+    setShowMenu(false);
+    navigate("/");
   };
 
+  const isActive = (route) => ("/" + route).replace(/\/$/, "") === path;
+
   return (
-    <>
-      <div
-        className={`footer ${isDark ? "darkthemefooter" : "lightthemefooter"}`}
-      >
-        <div className="item1" onClick={() => handleLink("")}>
-          <IoHome />
-        </div>
-        <div className="item2" onClick={() => handleLink("myposts")}>
-          <BsFillPostcardFill />
-        </div>
-        <div className="item3" onClick={() => handleLink("postform")}>
-          <IoAddCircle />
-        </div>
-        <div className="item4" onClick={() => handleLink("chat")}>
-          <IoChatbubbleEllipsesSharp />
-        </div>
-        <div className="item5">
-          <IoSettingsSharp />
-          <div
-            className={`footer-menu ${
-              isDark ? "darkthemefooter" : "lightthemefootermenu"
-            }`}
+    <div className="tabbar-wrap">
+      {showMenu && (
+        <div className="tabbar-scrim" onClick={() => setShowMenu(false)} />
+      )}
+      {showMenu && (
+        <div className="tabbar-sheet">
+          <button className="tabbar-sheet-item" onClick={handleIsDark}>
+            {isDark ? <MdNightsStay /> : <IoSunnyOutline />}
+            {isDark ? "Dark mode" : "Light mode"}
+          </button>
+          <button
+            className="tabbar-sheet-item"
+            onClick={() => handleLink("about")}
           >
-            <div className="footer-menu-item">
-              <div
-                onClick={() => {
-                  handleIsDark();
-                }}
-              >
-                Mode:{" "}
-                {isDark ? (
-                  <MdNightsStay size={"1.5rem"} color="white" />
-                ) : (
-                  <IoSunny size={"1.5rem"} color="yellow" />
-                )}
-              </div>
-            </div>
-            {localStorage.getItem("token") ? (
-              <>
-                <div
-                  className="footer-menu-item"
-                  onClick={() => handleSignOut()}
-                >
-                  SignOut
-                </div>
-              </>
-            ) : (
-              <div
-                className="footer-menu-item"
-                onClick={() => handleLink("signin")}
-              >
-                SignIn
-              </div>
-            )}
-            <div
-              className="footer-menu-item"
-              onClick={() => handleLink("about")}
+            <IoInformationCircleOutline />
+            About
+          </button>
+          {token ? (
+            <button className="tabbar-sheet-item" onClick={handleSignOut}>
+              <IoLogOutOutline />
+              Sign out
+            </button>
+          ) : (
+            <button
+              className="tabbar-sheet-item"
+              onClick={() => handleLink("signin")}
             >
-              About
-            </div>
-          </div>
+              <IoLogInOutline />
+              Sign in
+            </button>
+          )}
         </div>
-      </div>
-    </>
+      )}
+      <nav className="tabbar">
+        <button
+          className={`tabbar-btn ${isActive("") ? "active" : ""}`}
+          onClick={() => handleLink("")}
+        >
+          {isActive("") ? <IoHome /> : <IoHomeOutline />}
+          Home
+        </button>
+        <button
+          className={`tabbar-btn ${isActive("myposts") ? "active" : ""}`}
+          onClick={() => handleLink("myposts")}
+        >
+          {isActive("myposts") ? <BsPostcardFill /> : <BsPostcard />}
+          My Posts
+        </button>
+        <button
+          className="tabbar-add"
+          onClick={() => handleLink("postform")}
+          aria-label="New post"
+        >
+          <IoAdd />
+        </button>
+        <button
+          className={`tabbar-btn ${isActive("chat") ? "active" : ""}`}
+          onClick={() => handleLink("chat")}
+        >
+          {isActive("chat") ? (
+            <IoChatbubbleEllipsesSharp />
+          ) : (
+            <IoChatbubbleEllipsesOutline />
+          )}
+          Chat
+        </button>
+        <button
+          className={`tabbar-btn ${showMenu ? "active" : ""}`}
+          onClick={() => setShowMenu(!showMenu)}
+        >
+          <IoMenu />
+          Menu
+        </button>
+      </nav>
+    </div>
   );
 }
 

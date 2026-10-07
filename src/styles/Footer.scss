@@ -1,79 +1,149 @@
-.footer {
-  width: 100%;
-  height: 80px;
-  position: fixed;
-  bottom: 0;
-  z-index: 1;
-  display: grid;
-  align-items: center;
-  text-align: center;
-  font-size: 48px;
-  border-radius: 0;
-}
+///////////////////////////////////////////
+///              Mobile tab bar       ///
+///////////////////////////////////////////
 
-.lightthemefooter {
-  background-color: rgb(245, 244, 244);
-  color: rgb(27, 27, 27);
-}
-
-.darkthemefooter {
-  background-color: rgb(27, 27, 27);
-  color: rgb(230, 229, 229);
-}
-
-.footer .item1 {
-  grid-column: 1 / span 1;
-  grid-row: 1;
-}
-.footer .item1:hover,
-.item2:hover,
-.item3:hover,
-.item4:hover,
-.item5:hover {
-  color: #7302dd;
-}
-
-.footer .item2 {
-  grid-column: 2 / span 1;
-  grid-row: 1;
-}
-.footer .item3 {
-  grid-column: 3 / span 1;
-  grid-row: 1;
-}
-.footer .item4 {
-  grid-column: 4 / span 1;
-  grid-row: 1;
-}
-.footer .item5 {
-  grid-column: 5 / span 1;
-  grid-row: 1;
-}
-
-.footer-menu {
-  right: 0;
-  position: fixed;
-  bottom: 80px;
-  z-index: 1;
+.tabbar-wrap {
   display: none;
-  align-items: center;
-  text-align: right;
-  font-size: 25px;
-  padding: 10px 20px;
-  border-radius: 10px 0 0 0;
 }
 
-.item5:hover .footer-menu {
-  display: block;
-}
+@media screen and (max-width: 859px) {
+  .tabbar-wrap {
+    display: block;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 60;
+    padding: 0 16px calc(14px + env(safe-area-inset-bottom));
+    pointer-events: none;
+  }
 
-.lightthemefootermenu {
-  background-color: rgb(138, 138, 138);
-  color: rgb(0, 0, 0);
-}
+  .tabbar {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--header-bg);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    border: 1px solid var(--border-strong);
+    border-radius: 26px;
+    padding: 10px 8px;
+    box-shadow: var(--shadow);
+    max-width: 480px;
+    margin: 0 auto;
+  }
 
-@media screen and (min-width: 767px) {
-  .footer {
-    display: none;
+  .tabbar-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text-faint);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 12px;
+    border-radius: 16px;
+    transition: all 0.2s ease;
+    min-width: 58px;
+
+    svg {
+      font-size: 1.45rem;
+    }
+
+    &.active {
+      color: var(--accent);
+    }
+
+    &:active {
+      transform: scale(0.92);
+    }
+  }
+
+  .tabbar-add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    margin-top: -32px;
+    border-radius: 50%;
+    border: 4px solid var(--bg);
+    cursor: pointer;
+    color: var(--accent-ink);
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+    transition: transform 0.2s ease;
+
+    svg {
+      font-size: 1.7rem;
+    }
+
+    &:active {
+      transform: scale(0.9);
+    }
+  }
+
+  .tabbar-sheet {
+    pointer-events: auto;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    right: 16px;
+    width: 220px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+    padding: 8px;
+    animation: sheetIn 0.22s ease both;
+  }
+
+  @keyframes sheetIn {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .tabbar-sheet-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 12px 14px;
+    border-radius: 12px;
+    transition: background 0.15s ease;
+
+    svg {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+    }
+
+    &:hover {
+      background: var(--accent-soft);
+    }
+  }
+
+  .tabbar-scrim {
+    pointer-events: auto;
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: transparent;
   }
 }

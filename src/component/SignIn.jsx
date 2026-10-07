@@ -48,31 +48,41 @@ const SignIn = () => {
           <Loader />
         </div>
       ) : (
-        <div className="signin-box">
-          <form onSubmit={handleSignIn}>
-            <div className="title">Sign In</div>
-            <input
-              type="text"
-              id="username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Username"
-            />
+        <div className="auth-wrap">
+          <div className="signin-box">
+            <div className="title">Welcome back</div>
+            <p className="auth-sub">
+              Sign in to vent, react, and join the conversation.
+            </p>
+            <form onSubmit={handleSignIn}>
+              <input
+                type="text"
+                id="username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Username"
+                autoComplete="username"
+              />
 
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Password"
-            />
-            {/* <div className="forget">Forget password?</div> */}
-            <button type="submit">Login</button>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                autoComplete="current-password"
+              />
+              <button type="submit">Sign in</button>
+            </form>
             <div className="account-create" onClick={handleCreate}>
-              Don't have an account? <b>Create</b>
+              Don't have an account? <b>Create one</b>
             </div>
-          </form>
-          {showMessage ? `${showMessage}` : ""}
+            {showMessage ? (
+              <div className="auth-message">{showMessage}</div>
+            ) : (
+              ""
+            )}
+          </div>
         </div>
       )}
     </div>

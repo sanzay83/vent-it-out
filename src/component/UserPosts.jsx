@@ -3,6 +3,7 @@ import axios from "axios";
 import { API_URL } from "../config";
 import Loader from "./Loader";
 import { useLocation } from "react-router-dom";
+import { AiFillLike } from "react-icons/ai";
 import Emoji from "./Emoji";
 
 const UserPosts = () => {
@@ -66,30 +67,36 @@ const UserPosts = () => {
             <Loader />
           ) : (
             <>
-              <div style={{ fontSize: "30px" }}>{`Posts by  ${username}`}</div>
+              <h1 className="page-title">Posts by {username}</h1>
+              <p className="page-subtitle">
+                A glimpse into what they've been carrying.
+              </p>
               {noPostMessage === "" ? "" : noPostMessage}
               {posts.map((post, index) => (
-                <div className={`post `} key={index}>
-                  <div className="post-title">
-                    <div>{post.title}</div>
-                    <div className="emoteContainer">
+                <article
+                  className={`post mood-${post.type}`}
+                  key={post.postid || index}
+                  style={{ animationDelay: `${Math.min(index, 8) * 45}ms` }}
+                >
+                  <div className="post-top">
+                    <span className="mood-chip">
                       {handleEmote(post.type)}
-                    </div>
+                      {post.type}
+                    </span>
+                    <span className="post-date">
+                      {adjustDateTime(post.datetime)}
+                    </span>
                   </div>
-                  <div className="post-date">
-                    {adjustDateTime(post.datetime)}
-                  </div>
-                  <div style={{ padding: "5px 0" }} className="post-message">
-                    {post.message}
-                  </div>
+                  <h2 className="post-title">{post.title}</h2>
+                  <div className="post-message">{post.message}</div>
                   <div className="reaction-signature">
-                    <div style={{ fontFamily: "Playwrite CU" }}>
-                      {post.username}
-                    </div>
+                    <span className="post-reaction" style={{ cursor: "default" }}>
+                      <AiFillLike className="like-icon" /> {post.reaction}
+                    </span>
+                    <div className="post-signature">{post.username}</div>
                   </div>
-                </div>
+                </article>
               ))}
-              <div style={{ padding: "50px" }}></div>
             </>
           )}
         </>

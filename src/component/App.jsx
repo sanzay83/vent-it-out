@@ -14,7 +14,9 @@ import UserPosts from "./UserPosts";
 import Footer from "./Footer";
 
 const App = () => {
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(
+    () => (localStorage.getItem("theme") || "dark") === "dark"
+  );
   const [isSplash, setIsSplash] = useState(localStorage.getItem("flash"));
 
   useEffect(() => {
@@ -26,7 +28,7 @@ const App = () => {
   }, [isSplash]);
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       {!isSplash ? (
         <SplashScreen setIsSplash={setIsSplash} />
       ) : (
