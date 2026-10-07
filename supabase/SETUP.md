@@ -38,7 +38,8 @@ export const SUPABASE_URL = "https://xyzcompany.supabase.co";
 export const SUPABASE_ANON_KEY = "eyJ...your-anon-key...";
 ```
 
-Then `npm start` — register a test account and everything should work:
+Then `npm install` (refreshes `package-lock.json`) and `npm start` — register a
+test account and everything should work:
 feed, posting, likes, sign in/out, and realtime chat.
 
 ## 5. Give the GitHub deploy the same keys
