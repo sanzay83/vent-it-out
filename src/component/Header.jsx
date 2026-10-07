@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { MdNightsStay } from "react-icons/md";
 import { IoSunny, IoAdd } from "react-icons/io5";
+import { supabase } from "../supabaseClient";
 import logo from "../assets/viologo.png";
 
 const Header = ({ isDark, setIsDark }) => {
@@ -24,7 +25,8 @@ const Header = ({ isDark, setIsDark }) => {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
     localStorage.removeItem("username");
     localStorage.removeItem("token");
     navigate("/");

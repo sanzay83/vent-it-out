@@ -14,6 +14,7 @@ import {
 import { MdNightsStay } from "react-icons/md";
 import { BsPostcard, BsPostcardFill } from "react-icons/bs";
 import { useNavigate, useLocation } from "react-router-dom";
+import { supabase } from "../supabaseClient";
 
 function Footer({ isDark, setIsDark }) {
   const token = localStorage.getItem("token");
@@ -45,7 +46,8 @@ function Footer({ isDark, setIsDark }) {
     setShowMenu(false);
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
     localStorage.removeItem("username");
     localStorage.removeItem("token");
     setShowMenu(false);

@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { supabase } from "../supabaseClient";
 
 const Register = () => {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showMessage, setShowMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setShowMessage("Missing username or Password");
+    if (!username || !email || !password) {
+      setShowMessage("Missing username, email or password");
       return;
-    } else if (username < 5 || password.length < 8) {
+    } else if (username.length < 5 || password.length < 8) {
       setShowMessage(
         "Username must be atleast 5 character and Password 8 characters long."
       );
@@ -22,14 +22,27 @@ const Register = () => {
     }
 
     try {
-      await axios.post(`${API_URL}/vio/register`, {
+      const { data, error } = await supabase.auth.signUp({ email, password });
+      if (error) throw error;
+
+      const { error: profileError } = await supabase.from("profiles").insert({
+        id: data.user.id,
         username,
-        password,
       });
+      if (profileError) {
+        // Username taken (or another profile issue) — clean up the auth user
+        // record attempt so the message is clear.
+        throw new Error(
+          profileError.code === "23505"
+            ? "That username is taken — pick another."
+            : profileError.message
+        );
+      }
+
       localStorage.setItem("registered", true);
       navigate("/signin");
     } catch (error) {
-      setShowMessage(error.response.data.message);
+      setShowMessage(error.message);
     }
   };
 
@@ -53,6 +66,15 @@ const Register = () => {
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Choose a username"
               autoComplete="username"
+            />
+
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              autoComplete="email"
             />
 
             <input

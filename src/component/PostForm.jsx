@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../config";
+import { supabase } from "../supabaseClient";
 import Emoji from "./Emoji";
 
 const PostForm = () => {
   const [username, setUsername] = useState("");
   const [title, setTitle] = useState("");
-  const [datetime, setDatetime] = useState("");
   const [message, setMessage] = useState("");
-  const [reaction, setReaction] = useState(0);
   const [error, setError] = useState("");
   const [type, setType] = useState("");
   const navigate = useNavigate();
@@ -17,9 +14,6 @@ const PostForm = () => {
   const buttonType = ["Happy", "Sad", "Angry", "Love", "Surprise", "Relaxed"];
   useEffect(() => {
     setUsername(localStorage.getItem("username"));
-    const newDate = new Date();
-    setDatetime(newDate);
-    setReaction(0);
   }, []);
 
   const handlePost = async (e) => {
@@ -27,16 +21,17 @@ const PostForm = () => {
     try {
       if (title && message && type) {
         const token = localStorage.getItem("token");
-        if (token) {
-          await axios.post(`${API_URL}/vio/posts`, {
-            username,
-            title,
-            datetime,
-            message,
-            reaction,
-            type,
-          });
+        if (!token) {
+          setError("Please sign in to post.");
+          return;
         }
+        const { error } = await supabase.from("posts").insert({
+          username,
+          title,
+          message,
+          type,
+        });
+        if (error) throw error;
         navigate("/");
       } else {
         alert("Please add title, message and select your mood!");

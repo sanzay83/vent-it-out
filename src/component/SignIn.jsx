@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { API_URL } from "../config";
+import { supabase } from "../supabaseClient";
 import Loader from "./Loader";
 
 const SignIn = () => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showMessage, setShowMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -13,8 +12,8 @@ const SignIn = () => {
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    if (!username || !password) {
-      setShowMessage("Missing username or Password");
+    if (!email || !password) {
+      setShowMessage("Missing email or password");
       return;
     } else if (password.length < 8) {
       setShowMessage("Password must be 8 character long.");
@@ -23,16 +22,26 @@ const SignIn = () => {
 
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/vio/login`, {
-        username,
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
         password,
       });
-      localStorage.setItem("username", username);
-      localStorage.setItem("token", response.data.token);
+      if (error) throw error;
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("username")
+        .eq("id", data.user.id)
+        .single();
+      if (profileError) throw profileError;
+
+      localStorage.setItem("username", profile.username);
+      localStorage.setItem("token", data.session.access_token);
       setLoading(false);
       navigate("/");
     } catch (error) {
       console.log(error);
+      setShowMessage("Sign in failed. Check your email and password.");
       setLoading(false);
     }
   };
@@ -56,12 +65,12 @@ const SignIn = () => {
             </p>
             <form onSubmit={handleSignIn}>
               <input
-                type="text"
-                id="username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
-                autoComplete="username"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                autoComplete="email"
               />
 
               <input

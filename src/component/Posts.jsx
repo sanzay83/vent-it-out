@@ -1,11 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../config";
+import { supabase, mapPost } from "../supabaseClient";
 import Loader from "./Loader";
 import { AiFillLike } from "react-icons/ai";
 import { IoMdArrowDropdown, IoMdSearch } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import Emoji from "./Emoji";
+
+const PAGE_SIZE = 10;
 
 const Posts = () => {
   const [posts, setPosts] = useState([]);
@@ -25,17 +26,20 @@ const Posts = () => {
       if (!noMoreData) {
         try {
           setMoreLoading(true);
-          const response = await axios.get(
-            `${API_URL}/vio/posts?page=${page}&limit=${"10"}&postType=${type}`,
-            {
-              headers: {
-                "Access-Control-Allow-Origin": "*",
-              },
-            }
-          );
-          const posts = response.data;
+          let query = supabase
+            .from("posts")
+            .select("*")
+            .order("created_at", { ascending: false })
+            .range(page * PAGE_SIZE, page * PAGE_SIZE + PAGE_SIZE - 1);
+          if (type !== "All") {
+            query = query.eq("type", type);
+          }
+          const { data, error } = await query;
+          if (error) throw error;
 
-          if (posts.length < 10) {
+          const posts = (data || []).map(mapPost);
+
+          if (posts.length < PAGE_SIZE) {
             setNoMoreData(true);
           } else {
             setNoMoreData(false);
@@ -61,16 +65,18 @@ const Posts = () => {
   useEffect(() => {
     const fetchSearchPosts = async () => {
       try {
-        const response = await axios.get(
-          `https://vio.aapugu.com/vio/posts/search?search=${searchPost}&postType=${type}`,
-          {
-            headers: {
-              "Access-Control-Allow-Origin": "*",
-            },
-          }
-        );
-        const posts = response.data;
-        setPosts(posts);
+        const q = `%${searchPost}%`;
+        let query = supabase
+          .from("posts")
+          .select("*")
+          .or(`title.ilike.${q},message.ilike.${q}`)
+          .order("created_at", { ascending: false });
+        if (type !== "All") {
+          query = query.eq("type", type);
+        }
+        const { data, error } = await query;
+        if (error) throw error;
+        setPosts((data || []).map(mapPost));
       } catch (err) {
         console.log(err);
       }
@@ -100,30 +106,42 @@ const Posts = () => {
   };
 
   const handleReaction = async (postid, postuser, reaction, post) => {
-    if (!liked.includes(postid)) {
-      let index = posts.indexOf(post);
-      posts[index]["reaction"] = reaction + 1;
-      setPosts(posts);
-      setLiked((prev) => [...prev, postid]);
-
-      try {
-        const user = localStorage.getItem("username");
-        const token = localStorage.getItem("token");
-        if (token) {
-          await axios.post(`${API_URL}/vio/posts/reaction`, {
-            postid,
-            user,
-            postuser,
-            reaction,
-          });
-        } else {
-          alert("Please login to like posts.");
-        }
-      } catch (err) {
-        console.log(error);
-      }
-    } else {
+    if (liked.includes(postid)) {
       alert("Post already liked!");
+      return;
+    }
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("Please login to like posts.");
+      return;
+    }
+
+    // Optimistic UI, then confirm with the server-side like_post() RPC
+    // (one like per user — the database enforces it).
+    const index = posts.indexOf(post);
+    const updated = [...posts];
+    updated[index] = { ...post, reaction: reaction + 1 };
+    setPosts(updated);
+    setLiked((prev) => [...prev, postid]);
+
+    try {
+      const { data: isNew, error } = await supabase.rpc("like_post", {
+        p_post_id: postid,
+      });
+      if (error) throw error;
+      if (!isNew) {
+        // Already liked from another session — roll back the optimistic bump.
+        const rolled = [...updated];
+        rolled[index] = { ...post, reaction };
+        setPosts(rolled);
+        alert("Post already liked!");
+      }
+    } catch (err) {
+      console.log(err);
+      const rolled = [...posts];
+      rolled[index] = { ...post, reaction };
+      setPosts(rolled);
+      setLiked((prev) => prev.filter((id) => id !== postid));
     }
   };
 

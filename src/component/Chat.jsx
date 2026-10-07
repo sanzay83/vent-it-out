@@ -1,9 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
-import io from "socket.io-client";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from "../config";
-const socket = io(`${API_URL}`);
+import { supabase } from "../supabaseClient";
 
 const Chat = () => {
   const username = localStorage.getItem("username");
@@ -17,13 +14,13 @@ const Chat = () => {
   useEffect(() => {
     const fetchMessages = async () => {
       try {
-        const response = await axios.get(`${API_URL}/vio/messages`, {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        });
-        const messages = response.data.reverse();
-        setMessages(messages);
+        const { data, error } = await supabase
+          .from("messages")
+          .select("*")
+          .order("created_at", { ascending: true })
+          .limit(200);
+        if (error) throw error;
+        setMessages(data || []);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -34,43 +31,47 @@ const Chat = () => {
   }, []);
 
   useEffect(() => {
-    socket.on("chat message", ({ username, message }) => {
-      setMessages((prevMessages) => [...prevMessages, { username, message }]);
-    });
+    // Realtime: new messages stream in + presence tracks who's online.
+    const channel = supabase
+      .channel("global-chat")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "messages" },
+        (payload) => {
+          setMessages((prevMessages) => [...prevMessages, payload.new]);
+        }
+      )
+      .on("presence", { event: "sync" }, () => {
+        const state = channel.presenceState();
+        setUserCount(Object.keys(state).length);
+      })
+      .subscribe(async (status) => {
+        if (status === "SUBSCRIBED") {
+          await channel.track({ username });
+        }
+      });
 
     return () => {
-      socket.off("chat message");
+      supabase.removeChannel(channel);
     };
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    socket.on("user count", (count) => {
-      setUserCount(count);
-    });
-
-    return () => {
-      socket.off("user count");
-    };
   }, [messages]);
 
   const sendMessage = async () => {
-    socket.emit("chat message", { username, message });
+    const text = message.trim();
+    if (!text) return;
     setMessage("");
 
     try {
-      await axios.post(
-        `${API_URL}/vio/messages`,
-        {
-          username,
-          message,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      );
+      const { error } = await supabase
+        .from("messages")
+        .insert({ username, message: text });
+      if (error) throw error;
+      // The realtime INSERT subscription above appends it to the list —
+      // no need to add it locally (avoids duplicates).
     } catch (error) {
       console.error("Error sending message:", error);
     }

@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../config";
+import { supabase, mapPost } from "../supabaseClient";
 import Loader from "./Loader";
 import Emoji from "./Emoji";
 
@@ -17,11 +16,14 @@ const MyPosts = () => {
       try {
         if (token) {
           const username = localStorage.getItem("username");
-          const response = await axios.post(`${API_URL}/vio/posts/userpost`, {
-            username,
-          });
-          const posts = response.data.reverse();
-          if (posts) {
+          const { data, error } = await supabase
+            .from("posts")
+            .select("*")
+            .eq("username", username)
+            .order("created_at", { ascending: false });
+          if (error) throw error;
+          const posts = (data || []).map(mapPost);
+          if (posts.length) {
             setPosts(posts);
           } else {
             setNoPostMessage("You have not posted anything...");
@@ -58,7 +60,8 @@ const MyPosts = () => {
     const token = localStorage.getItem("token");
     try {
       if (token) {
-        await axios.delete(`${API_URL}/vio/posts/${postid}`);
+        const { error } = await supabase.from("posts").delete().eq("id", postid);
+        if (error) throw error;
       }
       setDeleteCheck(!deleteCheck);
     } catch (err) {

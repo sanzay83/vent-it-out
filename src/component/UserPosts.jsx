@@ -1,6 +1,5 @@
 import React, { useLayoutEffect, useState } from "react";
-import axios from "axios";
-import { API_URL } from "../config";
+import { supabase, mapPost } from "../supabaseClient";
 import Loader from "./Loader";
 import { useLocation } from "react-router-dom";
 import { AiFillLike } from "react-icons/ai";
@@ -17,11 +16,14 @@ const UserPosts = () => {
   useLayoutEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.post(`${API_URL}/vio/posts/userpost`, {
-          username,
-        });
-        const posts = response.data.reverse();
-        if (posts) {
+        const { data, error } = await supabase
+          .from("posts")
+          .select("*")
+          .eq("username", username)
+          .order("created_at", { ascending: false });
+        if (error) throw error;
+        const posts = (data || []).map(mapPost);
+        if (posts.length) {
           setPosts(posts);
         } else {
           setNoPostMessage("You have not posted anything...");
