@@ -22,13 +22,14 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Create API config
-        # src/config.js is gitignored (holds the backend URL), so the
-        # workflow generates it at build time. Update the URL if the
-        # backend ever moves.
-        run: echo 'export const API_URL = "https://vio.aapugu.com";' > src/config.js
+      - name: Create Supabase config
+        run: |
+          cat > src/config.js <<EOF
+          export const SUPABASE_URL = "${{ secrets.SUPABASE_URL }}";
+          export const SUPABASE_ANON_KEY = "${{ secrets.SUPABASE_ANON_KEY }}";
+          EOF
 
       - name: Build
         run: |
