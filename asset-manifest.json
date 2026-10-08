@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/vent-it-out/static/css/main.37966a17.css",
+    "main.js": "/vent-it-out/static/js/main.d48cfb1a.js",
+    "index.html": "/vent-it-out/index.html",
+    "main.37966a17.css.map": "/vent-it-out/static/css/main.37966a17.css.map",
+    "main.d48cfb1a.js.map": "/vent-it-out/static/js/main.d48cfb1a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.37966a17.css",
+    "static/js/main.d48cfb1a.js"
+  ]
+}
