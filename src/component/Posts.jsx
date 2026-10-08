@@ -180,7 +180,7 @@ const Posts = () => {
             <>
               <div className="feed-hero">
                 <h1>
-                  Let it out. <span className="gradient-word">No judgment.</span>
+                  Let it out. <span className="accent-word">No judgment.</span>
                 </h1>
                 <p>
                   A safe, anonymous space to share what's on your mind — the

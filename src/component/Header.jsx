@@ -44,7 +44,9 @@ const Header = ({ isDark, setIsDark }) => {
       <div className="header-inner">
         <div className="header-brand" onClick={() => handleLink("")}>
           <img src={logo} className="header-logo" alt="Vent It Out logo" />
-          <span className="header-title">Vent It Out</span>
+          <span className="header-title">
+            Vent It <span className="title-accent">Out</span>
+          </span>
         </div>
 
         <nav className="header-nav">
